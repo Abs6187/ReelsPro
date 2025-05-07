@@ -1,11 +1,13 @@
-import mongoose , { Schema ,model,models } from "mongoose";
+import mongoose, { Schema, model, models } from "mongoose";
+import { shouldUseMockDatabase, mockModels } from "@/lib/mock-db";
 
-export const VIDEO_DIMENSIONS ={
+export const VIDEO_DIMENSIONS = {
     width: 1080,
-    height :1920
-} as const
-export interface IVideo{
-    _id: mongoose.Types.ObjectId,
+    height: 1920
+} as const;
+
+export interface IVideo {
+    _id: mongoose.Types.ObjectId | string,
     title: string,
     description: string,
     videoUrl: string,
@@ -19,8 +21,6 @@ export interface IVideo{
     createdAt?: Date,
     updatedAt?: Date
 }
-
-
 
 const videoSchema = new Schema<IVideo>(
     {
@@ -61,10 +61,19 @@ const videoSchema = new Schema<IVideo>(
     }
 },
 {
-    timestamps:true
+    timestamps: true
 }
-)
+);
 
-const Video = models?.Video || model<IVideo>("Video", videoSchema)
+// Determine which model to use
+let VideoModel;
 
-export default Video
+if (shouldUseMockDatabase()) {
+    console.log("Using mock Video model");
+    VideoModel = mockModels.Video;
+} else {
+    // Use the real Mongoose model
+    VideoModel = models?.Video || model<IVideo>("Video", videoSchema);
+}
+
+export default VideoModel;
