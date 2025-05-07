@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa'; // Importing social media icons
+import { FaTwitter, FaLinkedin } from 'react-icons/fa'; // Importing social media icons
 
 const Footer = () => {
   return (
@@ -29,16 +29,10 @@ const Footer = () => {
           <div className="flex flex-col space-y-2">
             <h3 className="text-xl font-semibold hover:text-blue-700">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
-                <FaFacebook size={24} />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+              <a href="https://x.com/AbhayGu19265651" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
                 <FaTwitter size={24} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
-                <FaInstagram size={24} />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+              <a href="https://www.linkedin.com/in/abhay-gupta-197b17264/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
                 <FaLinkedin size={24} />
               </a>
             </div>
