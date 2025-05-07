@@ -2,10 +2,10 @@
 
 import { ImageKitProvider } from "imagekitio-next";
 import { SessionProvider } from "next-auth/react";
+import { envConfig } from "@/lib/env";
 
-
-const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
-const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
+const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT || envConfig.NEXT_PUBLIC_URL_ENDPOINT;
+const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY || envConfig.NEXT_PUBLIC_PUBLIC_KEY;
 
 export default function Providers({children}: {children: React.ReactNode}) {
 
