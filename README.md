@@ -4,7 +4,7 @@
 
 🎬 About ReelsPro
 
-ReelsPro is a dynamic web application that allows users to upload, view, and interact with short video reels shared by other users. The platform is designed to create an engaging experience where creativity thrives, fostering a community-driven environment for content creators and viewers alike.
+ReelsPro is a dynamic web application that allows users to upload, view, and interact with short video reels shared by other users. The platform is designed to create an engaging experience where creativity thrives, fostering a community-driven environment for content creators and viewers alike. HELLO Everyone 
 
 ## 🖼️  Preview
 
@@ -40,7 +40,7 @@ Ensure you have the following installed:
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/Abs6187/ReelsPro.git
+   git clone https://github.com/Sankalp20Tiwari/reelsPro.git
    ```
 2. **Navigate to the project directory:**
    ```sh
