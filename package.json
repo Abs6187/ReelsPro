@@ -21,10 +21,7 @@
     "bcryptjs": "^3.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-
-    // ↓ HERE we downgraded to a 3.x release
     "date-fns": "^3.6.0",
-
     "framer-motion": "^12.4.7",
     "imagekit": "^6.0.0",
     "imagekitio-next": "^1.0.1",
@@ -45,9 +42,9 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types-node": "^20",
+    "@types-react": "^19",
+    "@types-react-dom": "^19",
     "daisyui": "^4.12.23",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
