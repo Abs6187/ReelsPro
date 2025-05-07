@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from "mongoose";
+import mongoose, { Schema, model, models, Model } from "mongoose";
 import { shouldUseMockDatabase, mockModels } from "@/lib/mock-db";
 
 export const VIDEO_DIMENSIONS = {
@@ -66,11 +66,11 @@ const videoSchema = new Schema<IVideo>(
 );
 
 // Determine which model to use
-let VideoModel;
+let VideoModel: Model<IVideo>;
 
 if (shouldUseMockDatabase()) {
     console.log("Using mock Video model");
-    VideoModel = mockModels.Video;
+    VideoModel = mockModels.Video as unknown as Model<IVideo>;
 } else {
     // Use the real Mongoose model
     VideoModel = models?.Video || model<IVideo>("Video", videoSchema);
