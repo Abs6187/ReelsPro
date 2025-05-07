@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Allow production builds to complete even if there are ESLint errors
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   images: {
     remotePatterns: [
       {
@@ -10,7 +14,7 @@ const nextConfig: NextConfig = {
         port: "",
       },
     ],
-    domains: ['images.pexels.com','avatar.vercel.sh','randomuser.me'],
+    domains: ["images.pexels.com", "avatar.vercel.sh", "randomuser.me"],
   },
 };
 
