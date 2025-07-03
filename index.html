@@ -25,6 +25,32 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <style>
+        /* Video container styles */
+        @media (max-width: 640px) {
+            .video-container video {
+                height: 100%;
+                width: auto;
+                min-width: 100%;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .video-container video {
+                width: 100%;
+                height: auto;
+                min-height: 100%;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .video-container video {
+                min-width: 100%;
+                min-height: 100%;
+                width: auto;
+                height: auto;
+            }
+        }
+        
         .gradient-text {
             background: linear-gradient(90deg, #4F46E5, #9333EA);
             -webkit-background-clip: text;
@@ -100,11 +126,20 @@
 
     <!-- Hero Section with Video Background -->
     <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <video autoplay muted loop playsinline class="w-full h-full object-cover">
-                <source src="https://github.com/Abs6187/ReelsPro/raw/2f4f921f58af90ad40b899376bf60efb60560bc2/Video_demo.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
+        <div class="absolute inset-0 z-0 w-full h-full">
+            <div class="absolute inset-0 w-full h-full flex items-center justify-center">
+                <video 
+                    autoplay 
+                    muted 
+                    loop 
+                    playsinline 
+                    class="absolute w-auto min-w-full min-h-full max-w-none"
+                    style="left: 50%; top: 50%; transform: translate(-50%, -50%);"
+                >
+                    <source src="https://github.com/Abs6187/ReelsPro/raw/2f4f921f58af90ad40b899376bf60efb60560bc2/Video_demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
             <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         </div>
         <div class="relative z-10 text-center px-4">
