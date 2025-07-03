@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReelsPro - Short Video Platform Documentation</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding: 40px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            font-size: 2rem;
+            color: #4a5568;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 15px;
+            margin-top: 20px;
+        }
+
+        .card h4 {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 10px;
+            margin-top: 15px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .feature-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-item strong {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tech-item {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .tech-item strong {
+            display: block;
+            font-size: 1.1rem;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .team-member {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-member h4 {
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .team-member p {
+            color: #4a5568;
+            margin-bottom: 10px;
+        }
+
+        .team-member a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .team-member a:hover {
+            text-decoration: underline;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .demo-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .demo-section a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .demo-section a:hover {
+            text-decoration: underline;
+        }
+
+        .project-structure {
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+
+        .future-integrations {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .future-integrations h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .future-integrations ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .future-integrations li {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            margin-right: 10px;
+        }
+
+        .youtube-embed {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .youtube-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #667eea;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-video icon"></i>ReelsPro</h1>
+            <p>A platform where users can share and watch short videos with AI-powered features, content moderation, and seamless user experience designed for connection and creativity.</p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-info-circle icon"></i>Project Overview</h2>
+            <p>ReelsPro is a comprehensive short video platform that combines social media functionality with advanced AI features. It includes an intelligent chatbot for user assistance and a sophisticated content moderation system to ensure a safe and engaging environment. The platform is designed with user experience at its core, making it fun and easy to use while helping people connect through their creative videos.</p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-star icon"></i>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <strong>User-friendly Interface</strong>
+                    Seamless feedback submission and intuitive navigation
+                </div>
+                <div class="feature-item">
+                    <strong>Video Upload & Rendering</strong>
+                    Powered by ImageKit for optimal performance
+                </div>
+                <div class="feature-item">
+                    <strong>AI Chatbot</strong>
+                    Intelligent assistance using Groq and Vercel AI SDK
+                </div>
+                <div class="feature-item">
+                    <strong>Content Moderation</strong>
+                    AI-powered moderation with Gemini and Groq
+                </div>
+                <div class="feature-item">
+                    <strong>Mobile Responsive</strong>
+                    Accessible across all devices and screen sizes
+                </div>
+                <div class="feature-item">
+                    <strong>Optimized Performance</strong>
+                    SSR and SSG for lightning-fast loading
+                </div>
+                <div class="feature-item">
+                    <strong>Modern UI</strong>
+                    Beautiful design with Tailwind CSS and Shadcn
+                </div>
+                <div class="feature-item">
+                    <strong>Secure API</strong>
+                    Protected interactions ensuring data integrity
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-globe icon"></i>Live Demo & Presentations</h2>
+            <div class="demo-section">
+                <h3>🔗 Live Application</h3>
+                <p>Experience ReelsPro in action:</p>
+                <a href="https://reelspro-phi.vercel.app/" target="_blank">Visit Live Site</a>
+            </div>
+            
+            <h3>📹 YouTube Presentations</h3>
+            <h4>Part 1 Presentation</h4>
+            <div class="youtube-embed">
+                <iframe src="https://www.youtube.com/embed/V4u56VDxRTY" frameborder="0" allowfullscreen></iframe>
+            </div>
+            
+            <h4>Part 2 Presentation</h4>
+            <p><a href="https://youtu.be/b4--EaAh6wA?si=42foofFVH0_qq_sp" target="_blank">Watch Part 2 on YouTube</a></p>
+            
+            <h3>💼 LinkedIn Announcement</h3>
+            <p><a href="https://www.linkedin.com/posts/abhay-gupta-197b17264_id8devhub-microsoft-hacksrit-activity-7327716169660989440-rhot" target="_blank">View Project Announcement on LinkedIn</a></p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-cogs icon"></i>Installation & Setup</h2>
+            <h3>Prerequisites</h3>
+            <ul>
+                <li><strong>Node.js</strong> (Latest LTS version recommended)</li>
+                <li><strong>npm</strong> or <strong>yarn</strong> for package management</li>
+            </ul>
+            
+            <h3>Environment Configuration</h3>
+            <p>Create a <code>.env</code> file in the root directory with the following variables:</p>
+            <div class="code-block">
+NEXT_PUBLIC_PUBLIC_KEY=&lt;your-imagekit-next-api-key&gt;
+IMAGEKIT_PRIVATE_KEY=&lt;your-imagekit-private-api-key&gt;
+NEXT_PUBLIC_URL_ENDPOINT=&lt;your-imagekit-url-endpoint&gt;
+GROQ_API_KEY=&lt;your-groq-api-key&gt;
+GROQ_API_MODEL=&lt;your-groq-api-model&gt;
+            </div>
+            
+            <h3>Development Server</h3>
+            <div class="code-block">
+npm run dev  # or yarn dev
+            </div>
+            <p>Open <code>http://localhost:3000</code> in your browser to view the application.</p>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-folder-open icon"></i>Project Structure</h2>
+            <div class="project-structure">
+                <div class="code-block">
+reelsPro/
+├── app/
+│   ├── api/        # API routes (chatbot, videos, etc.)
+│   ├── components/ # Custom reusable components
+│   ├── admin/      # Admin pages (moderation, settings)
+│   ├── (main)/     # Main application pages
+│   ├── layout.tsx  # Application layout
+│   └── page.tsx    # Landing page
+├── components/     # UI components (shadcn, magicui)
+├── data/          # Application data
+├── lib/           # Utility functions
+├── public/        # Static assets
+├── next.config.ts # Next.js configuration
+├── package.json   # Dependencies and scripts
+└── .env          # Environment variables
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-tools icon"></i>Technology Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <strong>Next.js</strong>
+                    React framework for SSR & SSG
+                </div>
+                <div class="tech-item">
+                    <strong>TypeScript</strong>
+                    Type safety and scalability
+                </div>
+                <div class="tech-item">
+                    <strong>ImageKit</strong>
+                    Video uploading and management
+                </div>
+                <div class="tech-item">
+                    <strong>Groq API & Vercel AI SDK</strong>
+                    AI Chatbot functionality
+                </div>
+                <div class="tech-item">
+                    <strong>Tailwind CSS</strong>
+                    Utility-first CSS framework
+                </div>
+                <div class="tech-item">
+                    <strong>ESLint & Prettier</strong>
+                    Code quality and formatting
+                </div>
+                <div class="tech-item">
+                    <strong>React Hook Form</strong>
+                    Form management solution
+                </div>
+                <div class="tech-item">
+                    <strong>Shadcn UI</strong>
+                    Modern UI components
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-users icon"></i>Team - TechMatrix Solvers</h2>
+            <p>This project was developed for the <strong>HacksRIT Hackathon</strong> by our talented team:</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <h4>Kripanshu Gupta</h4>
+                    <p>MERN Stack Developer (2022-2026)</p>
+                    <a href="https://www.linkedin.com/in/kripanshu-gupta-a66349261/" target="_blank">LinkedIn Profile</a>
+                </div>
+                <div class="team-member">
+                    <h4>Abhay Gupta</h4>
+                    <p>ML & Full-Stack Developer (2022-2026)</p>
+                    <a href="https://www.linkedin.com/in/abhay-gupta-197b17264/" target="_blank">LinkedIn Profile</a>
+                </div>
+                <div class="team-member">
+                    <h4>Jay Kumar</h4>
+                    <p>ML & Front-end Developer (2022-2026)</p>
+                    <a href="https://www.linkedin.com/in/jay-kumar-jk/" target="_blank">LinkedIn Profile</a>
+                </div>
+                <div class="team-member">
+                    <h4>Simran Koshta</h4>
+                    <p>Full Stack Developer (2023-2027)</p>
+                    <a href="https://www.linkedin.com/in/simran-koshta-40b3b2289/" target="_blank">LinkedIn Profile</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-rocket icon"></i>Future Integrations</h2>
+            <div class="future-integrations">
+                <h3>What makes ReelsPro different from existing platforms:</h3>
+                <ul>
+                    <li><strong>Safe Content Environment:</strong> Daily vlog uploads without fear of inappropriate content</li>
+                    <li><strong>Advanced AI Integration:</strong> Automatic tagging, moderation, and personalized feeds beyond basic AI features</li>
+                    <li><strong>Seamless Media Optimization:</strong> Drag-and-drop uploads with real-time optimization via ImageKit</li>
+                    <li><strong>Platform-Agnostic Backend:</strong> Developers can build custom video applications</li>
+                    <li><strong>Serverless Architecture:</strong> Scalable deployment for cost-effective growth</li>
+                    <li><strong>Creator Analytics:</strong> Actionable insights and future monetization support</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-handshake icon"></i>Contributing</h2>
+            <p>We welcome contributions to enhance ReelsPro! Here's how you can contribute:</p>
+            <ol>
+                <li>Fork the repository</li>
+                <li>Create a new branch (<code>feature/your-feature-name</code>)</li>
+                <li>Implement your changes and commit them</li>
+                <li>Push to your forked repository</li>
+                <li>Submit a pull request</li>
+            </ol>
+            <p>Every contribution helps make ReelsPro better for everyone!</p>
+        </div>
+
+        <div class="card" style="text-align: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2><i class="fas fa-heart icon"></i>Thank You for Exploring ReelsPro!</h2>
+            <p>Built with passion by TechMatrix Solvers for the HacksRIT Hackathon</p>
+            <div style="margin-top: 20px;">
+                <span class="badge">Next.js</span>
+                <span class="badge">TypeScript</span>
+                <span class="badge">AI-Powered</span>
+                <span class="badge">Open Source</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
