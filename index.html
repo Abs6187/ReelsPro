@@ -26,28 +26,67 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <style>
         /* Video container styles */
-        @media (max-width: 640px) {
-            .video-container video {
-                height: 100%;
-                width: auto;
-                min-width: 100%;
-            }
+        .video-container {
+            position: relative;
+            max-width: 400px; /* Mobile-like width */
+            height: 700px; /* Mobile-like height */
+            margin: 2rem auto;
+            border-radius: 40px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 12px solid #1a1a1a;
+            background: #1a1a1a;
+            position: relative;
         }
         
-        @media (min-width: 641px) and (max-width: 1024px) {
-            .video-container video {
-                width: 100%;
-                height: auto;
-                min-height: 100%;
-            }
+        /* Phone notch */
+        .phone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 30px;
+            background: #1a1a1a;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            z-index: 10;
         }
         
-        @media (min-width: 1025px) {
-            .video-container video {
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        /* Video content */
+        .video-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            z-index: 2;
+            color: white;
+            text-align: left;
+        }
+        
+        /* Fallback for older browsers */
+        @supports not (object-fit: cover) {
+            .video-background {
+                background: #000;
+            }
+            .video-background video {
+                position: absolute;
                 min-width: 100%;
                 min-height: 100%;
                 width: auto;
                 height: auto;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
         }
         
@@ -124,34 +163,163 @@
         </div>
     </header>
 
-    <!-- Hero Section with Video Background -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0 z-0 w-full h-full">
-            <div class="absolute inset-0 w-full h-full flex items-center justify-center">
+    <!-- Hero Section with Video Preview -->
+    <section class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">Experience ReelsPro</h2>
+            <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">See how ReelsPro brings the future of short video sharing to your fingertips</p>
+        </div>
+        
+        <div class="flex justify-center px-4">
+            <div class="video-container">
+                <div class="phone-notch"></div>
                 <video 
                     autoplay 
                     muted 
                     loop 
                     playsinline 
-                    class="absolute w-auto min-w-full min-h-full max-w-none"
-                    style="left: 50%; top: 50%; transform: translate(-50%, -50%);"
+                    preload="auto"
+                    poster="https://via.placeholder.com/400x700/1a1a1a/ffffff?text=Loading+Demo..."
                 >
                     <source src="https://github.com/Abs6187/ReelsPro/raw/2f4f921f58af90ad40b899376bf60efb60560bc2/Video_demo.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
+                <div class="video-content">
+                    <h3 class="text-xl font-bold mb-2">Trending Now</h3>
+                    <p class="text-sm opacity-90">Check out the latest viral videos</p>
+                    <div class="flex space-x-3 mt-3">
+                        <button class="bg-white text-gray-900 px-4 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-heart mr-1"></i> 24.5K
+                        </button>
+                        <button class="bg-white text-gray-900 px-4 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-comment mr-1"></i> 1.2K
+                        </button>
+                        <button class="bg-white text-gray-900 px-4 py-1 rounded-full text-sm font-medium">
+                            <i class="fas fa-share mr-1"></i> Share
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
         </div>
-        <div class="relative z-10 text-center px-4">
-            <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
-                <span class="block">ReelsPro</span>
-                <span class="text-2xl md:text-3xl font-light mt-4 block">The Future of Short Video Sharing</span>
-            </h1>
-            <div class="animate-bounce mt-12">
-                <a href="#features" class="text-white text-lg">
-                    <i class="fas fa-chevron-down"></i>
-                    <span class="block mt-2">Explore More</span>
-                </a>
+        
+        <div class="text-center mt-8">
+            <a href="#demo-videos" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors">
+                <i class="fas fa-play-circle mr-2"></i> Watch Full Demos
+            </a>
+        </div>
+    </section>
+
+    <!-- Demo Videos Section -->
+    <section id="demo-videos" class="py-16 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                    Watch Our Demos
+                </h2>
+                <p class="mt-4 text-xl text-gray-600 dark:text-gray-300">
+                    See ReelsPro in action with our detailed presentations
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                    <div class="relative pt-[56.25%] overflow-hidden">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full"
+                            src="https://www.youtube.com/embed/V4u56VDxRTY"
+                            title="ReelsPro Part 1 Presentation"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Part 1: Introduction & Features</h3>
+                        <p class="text-gray-600 dark:text-gray-300">An overview of ReelsPro's core features and functionalities.</p>
+                        <div class="mt-4">
+                            <a href="https://youtu.be/V4u56VDxRTY" target="_blank" class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:underline">
+                                <i class="fab fa-youtube mr-2"></i>
+                                Watch on YouTube
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+                    <div class="relative pt-[56.25%] overflow-hidden">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full"
+                            src="https://www.youtube.com/embed/b4--EaAh6wA"
+                            title="ReelsPro Part 2 Presentation"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Part 2: Advanced Features</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Dive deeper into ReelsPro's advanced capabilities and AI features.</p>
+                        <div class="mt-4">
+                            <a href="https://youtu.be/b4--EaAh6wA" target="_blank" class="inline-flex items-center text-indigo-600 dark:text-indigo-400 hover:underline">
+                                <i class="fab fa-youtube mr-2"></i>
+                                Watch on YouTube
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <div class="inline-block bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
+                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">Connect With Us</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Check out our project announcement on LinkedIn:</p>
+                    <a href="https://www.linkedin.com/posts/abhay-gupta-197b17264_id8devhub-microsoft-hacksrit-activity-7327716169660989440-rhot" 
+                       target="_blank" 
+                       class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#0A66C2] hover:bg-[#004182] transition-colors">
+                        <i class="fab fa-linkedin-in mr-2"></i>
+                        View on LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Features Showcase -->
+    <section class="py-16 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-extrabold text-gray-900 dark:text-white sm:text-4xl">
+                    Why Choose ReelsPro?
+                </h2>
+                <p class="mt-4 text-xl text-gray-600 dark:text-gray-300">
+                    Discover the features that make us different
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center p-6 rounded-xl bg-gray-50 dark:bg-gray-700 transition-all hover:shadow-lg">
+                    <div class="w-16 h-16 bg-indigo-100 dark:bg-indigo-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bolt text-2xl text-indigo-600 dark:text-indigo-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Lightning Fast</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Experience smooth, lag-free video playback with our optimized streaming.</p>
+                </div>
+                
+                <div class="text-center p-6 rounded-xl bg-gray-50 dark:bg-gray-700 transition-all hover:shadow-lg">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-robot text-2xl text-green-600 dark:text-green-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">AI Powered</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Smart recommendations and content moderation powered by AI.</p>
+                </div>
+                
+                <div class="text-center p-6 rounded-xl bg-gray-50 dark:bg-gray-700 transition-all hover:shadow-lg">
+                    <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-mobile-alt text-2xl text-purple-600 dark:text-purple-300"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2">Mobile First</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Designed for the best mobile experience with intuitive controls.</p>
+                </div>
             </div>
         </div>
     </section>
