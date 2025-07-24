@@ -4,7 +4,7 @@
     "description": "Protect your privacy and uphold values by auto detecting & blurring images and videos of unwanted or impermissible content.",
     "version": "0.2.6",
     "permissions": ["storage", "offscreen", "contextMenus"],
-    "author": "md.alganzory@gmail.com",
+    "author": "contact2abhaygupta@gmail.com",
     "action": {
         "default_title": "ReelsPRO",
         "default_popup": "src/popup.html"
