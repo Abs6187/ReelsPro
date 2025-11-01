@@ -4,7 +4,8 @@
     "description": "Privacy-focused browser extension for detecting and blurring sensitive content",
     "type": "module",
     "scripts": {
-        "build": "vite build",
+        "build": "NODE_ENV=production vite build",
+        "build:dev": "vite build",
         "dev": "vite build --watch",
         "type-check": "tsc --noEmit",
         "type-check:watch": "tsc --noEmit --watch",
@@ -30,6 +31,7 @@
         "jest-environment-jsdom": "^29.7.0",
         "lint-staged": "^15.2.10",
         "prettier": "^3.3.3",
+        "terser": "^5.44.0",
         "typescript": "^5.6.3",
         "vite": "^5.4.8"
     },
@@ -40,7 +42,13 @@
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown"
     },
-    "keywords": ["browser-extension", "privacy", "content-filtering", "machine-learning", "tensorflow"],
+    "keywords": [
+        "browser-extension",
+        "privacy",
+        "content-filtering",
+        "machine-learning",
+        "tensorflow"
+    ],
     "author": "ReelsPRO Team",
     "license": "MIT",
     "repository": {

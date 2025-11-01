@@ -5,6 +5,7 @@ import {
 } from "./modules/observers";
 import Settings from "./modules/settings";
 import { attachStyleListener } from "./modules/style";
+import videoTimeTracker from "./modules/videoTimeTracker";
 
 const attachAllListeners = () => {
     // Listen for more settings
@@ -22,6 +23,12 @@ const attachAllListeners = () => {
 if (window.self === window.top) {
     attachAllListeners();
     initMutationObserver();
+
+    // Initialize video time tracker
+    setTimeout(() => {
+        videoTimeTracker.observeVideos();
+    }, 1000);
+
     Settings.init()
         .then((settings) => {
             if (
