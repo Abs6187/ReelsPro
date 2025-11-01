@@ -47,7 +47,7 @@ const processImage = (node, STATUSES) => {
     }
 
     try {
-        node.dataset.HBstatus = STATUSES.PROCESSING;
+        node.dataset.RPstatus = STATUSES.PROCESSING;
         
         const imageData = {
             type: "imageDetection",
@@ -69,8 +69,8 @@ const processImage = (node, STATUSES) => {
                     node.src ? new URL(node.src).hostname : 'unknown'
                 );
                 removeBlurryStart(node);
-                node.dataset.HBstatus = STATUSES.ERROR;
-                node.dataset.HBerror = "timeout";
+                node.dataset.RPstatus = STATUSES.ERROR;
+                node.dataset.RPerror = "timeout";
             }
         }, 15000); // 15 second timeout
 
@@ -88,49 +88,49 @@ const processImage = (node, STATUSES) => {
                         { errorCode: 'runtime_error' },
                         node.src ? new URL(node.src).hostname : 'unknown'
                     );
-                    node.dataset.HBstatus = STATUSES.ERROR;
-                    node.dataset.HBerror = "runtime_error";
+                    node.dataset.RPstatus = STATUSES.ERROR;
+                    node.dataset.RPerror = "runtime_error";
                     return;
                 }
 
                 if (!response) {
-                    console.warn("HB==No response received for image processing");
-                    node.dataset.HBstatus = STATUSES.ERROR;
-                    node.dataset.HBerror = "no_response";
+                    console.warn("RP==No response received for image processing");
+                    node.dataset.RPstatus = STATUSES.ERROR;
+                    node.dataset.RPerror = "no_response";
                     return;
                 }
 
                 if (response.type === "error") {
-                    console.warn("HB==Error while processing image:", response);
-                    node.dataset.HBstatus = STATUSES.ERROR;
-                    node.dataset.HBerror = response.code || "processing_error";
+                    console.warn("RP==Error while processing image:", response);
+                    node.dataset.RPstatus = STATUSES.ERROR;
+                    node.dataset.RPerror = response.code || "processing_error";
                     return;
                 }
 
                 if (response === "face" || response === "nsfw") {
-                    node.dataset.HBstatus = STATUSES.PROCESSED;
-                    node.classList.add("hb-blur");
-                    node.dataset.HBresult = response;
+                    node.dataset.RPstatus = STATUSES.PROCESSED;
+                    node.classList.add("rp-blur");
+                    node.dataset.RPresult = response;
                 } else if (response === false) {
-                    node.dataset.HBstatus = STATUSES.PROCESSED;
-                    node.classList.remove("hb-blur");
-                    delete node.dataset.HBresult;
+                    node.dataset.RPstatus = STATUSES.PROCESSED;
+                    node.classList.remove("rp-blur");
+                    delete node.dataset.RPresult;
                 } else {
-                    console.warn("HB==Unknown response from processing image:", response);
-                    node.dataset.HBstatus = STATUSES.ERROR;
-                    node.dataset.HBerror = "unknown_response";
+                    console.warn("RP==Unknown response from processing image:", response);
+                    node.dataset.RPstatus = STATUSES.ERROR;
+                    node.dataset.RPerror = "unknown_response";
                 }
             } catch (processingError) {
-                console.error("HB==Error processing response:", processingError);
-                node.dataset.HBstatus = STATUSES.ERROR;
-                node.dataset.HBerror = "response_processing_error";
+                console.error("RP==Error processing response:", processingError);
+                node.dataset.RPstatus = STATUSES.ERROR;
+                node.dataset.RPerror = "response_processing_error";
             }
         });
     } catch (error) {
-        console.error("HB==Error in processImage:", error);
+        console.error("RP==Error in processImage:", error);
         removeBlurryStart(node);
-        node.dataset.HBstatus = STATUSES.ERROR;
-        node.dataset.HBerror = "initialization_error";
+        node.dataset.RPstatus = STATUSES.ERROR;
+        node.dataset.RPerror = "initialization_error";
     }
 };
 
@@ -235,7 +235,7 @@ const processFrame = async (video, { width, height }) => {
 
 const videoDetectionLoop = async (video, { width, height }) => {
     // Check if video is still valid and not removed from DOM
-    if (!video || !video.isConnected || video.dataset.HBstatus === STATUSES.ERROR) {
+    if (!video || !video.isConnected || video.dataset.RPstatus === STATUSES.ERROR) {
         cleanupVideo(video);
         return;
     }
@@ -243,33 +243,33 @@ const videoDetectionLoop = async (video, { width, height }) => {
     // get the current timestamp
     const currTime = performance.now();
 
-    if (!video?.HBprevTime) {
-        video.HBprevTime = currTime;
+    if (!video?.RPprevTime) {
+        video.RPprevTime = currTime;
     }
 
     // calculate the time difference
-    const diffTime = currTime - video.HBprevTime;
+    const diffTime = currTime - video.RPprevTime;
 
-    if (video.dataset.HBstatus === STATUSES.DISABLED) {
-        video.classList.remove("hb-blur");
+    if (video.dataset.RPstatus === STATUSES.DISABLED) {
+        video.classList.remove("rp-blur");
     }
     
     if (
         !video.ended &&
         !video.paused &&
-        video.dataset.HBstatus !== STATUSES.DISABLED
+        video.dataset.RPstatus !== STATUSES.DISABLED
     ) {
         try {
             if (diffTime >= FRAME_RATE) {
                 // store the current timestamp
-                video.HBprevTime = currTime;
+                video.RPprevTime = currTime;
 
                 if (!activeFrame) {
                     activeFrame = true;
                     processFrame(video, { width, height })
                         .then(({ result, timestamp }) => {
                             if (result === "error") {
-                                throw new Error("HB==Error from processFrame");
+                                throw new Error("RP==Error from processFrame");
                             }
 
                             // if frame was skipped, don't process it
@@ -286,8 +286,8 @@ const videoDetectionLoop = async (video, { width, height }) => {
                             processVideoDetections(result, video);
                         })
                         .catch((error) => {
-                            const errorCount = parseInt(video.dataset.HBerrored ?? 0) + 1;
-                            video.dataset.HBerrored = errorCount;
+                            const errorCount = parseInt(video.dataset.RPerrored ?? 0) + 1;
+                            video.dataset.RPerrored = errorCount;
 
                             const context = {
                                 videoSrc: video.src || video.currentSrc,
@@ -312,8 +312,8 @@ const videoDetectionLoop = async (video, { width, height }) => {
                 }
             }
         } catch (error) {
-            const errorCount = parseInt(video.dataset.HBerrored ?? 0) + 1;
-            video.dataset.HBerrored = errorCount;
+            const errorCount = parseInt(video.dataset.RPerrored ?? 0) + 1;
+            video.dataset.RPerrored = errorCount;
 
             const context = {
                 videoSrc: video.src || video.currentSrc,
@@ -332,7 +332,7 @@ const videoDetectionLoop = async (video, { width, height }) => {
     }
 
     // Enhanced error threshold with graceful degradation
-    const errorCount = parseInt(video.dataset.HBerrored ?? 0);
+    const errorCount = parseInt(video.dataset.RPerrored ?? 0);
     if (errorCount > 10) {
         errorManager.logError(
             'video_processing',
@@ -352,7 +352,7 @@ const videoDetectionLoop = async (video, { width, height }) => {
         const backoffDelay = Math.min(1000 * Math.pow(2, errorCount - 5), 10000); // Max 10 second delay
         setTimeout(() => {
             if (!video.paused && video.isConnected) {
-                video.HBrafId = requestAnimationFrame(() =>
+                video.RPrafId = requestAnimationFrame(() =>
                     videoDetectionLoop(video, { width, height })
                 );
             }
@@ -361,13 +361,13 @@ const videoDetectionLoop = async (video, { width, height }) => {
     }
     
     if (!video.paused && video.isConnected) {
-        video.HBrafId = requestAnimationFrame(() =>
+        video.RPrafId = requestAnimationFrame(() =>
             videoDetectionLoop(video, { width, height })
         );
     } else {
         video.onplay = () => {
             if (video.isConnected) {
-                video.HBrafId = requestAnimationFrame(() =>
+                video.RPrafId = requestAnimationFrame(() =>
                     videoDetectionLoop(video, { width, height })
                 );
             }
@@ -378,9 +378,9 @@ const videoDetectionLoop = async (video, { width, height }) => {
 
 const processVideo = async (node) => {
     try {
-        node.dataset.HBstatus = STATUSES.LOADING;
+        node.dataset.RPstatus = STATUSES.LOADING;
         await loadVideo(node);
-        node.dataset.HBstatus = STATUSES.PROCESSING;
+        node.dataset.RPstatus = STATUSES.PROCESSING;
         const { newWidth, newHeight } = calcResize(
             node.videoWidth ?? node.clientWidth,
             node.videoHeight ?? node.clientHeight,
@@ -409,52 +409,52 @@ const processVideo = async (node) => {
             videoDetectionLoop(node, { width: newWidth, height: newHeight });
         });
     } catch (e) {
-        console.log("HB== processVideo error", e);
+        console.log("RP== processVideo error", e);
     }
 };
 
 const processVideoDetections = (result, video) => {
-    const prevResult = video.dataset.HBresult;
+    const prevResult = video.dataset.RPresult;
     const isPrevResultClear = prevResult === RESULTS.CLEAR || !prevResult;
-    const currentPositiveCount = parseInt(video.HBpositiveCount ?? 0);
-    const currentNegativeCount = parseInt(video.HBnegativeCount ?? 0);
+    const currentPositiveCount = parseInt(video.RPpositiveCount ?? 0);
+    const currentNegativeCount = parseInt(video.RPnegativeCount ?? 0);
     let shouldBlur = null;
 
     if (result === "nsfw") {
-        video.dataset.HBresult = RESULTS.NSFW;
-        video.HBpositiveCount = currentPositiveCount + !isPrevResultClear;
-        video.HBnegativeCount = 0;
+        video.dataset.RPresult = RESULTS.NSFW;
+        video.RPpositiveCount = currentPositiveCount + !isPrevResultClear;
+        video.RPnegativeCount = 0;
         // if the positive count is greater than the threshold (i.e it's not a momentary blip), add the blur
         if (currentPositiveCount + !isPrevResultClear >= POSITIVE_THRESHOLD) {
             // video.pause()
             shouldBlur = true;
-            video.HBpositiveCount = 0;
+            video.RPpositiveCount = 0;
         }
     } else if (result === "face") {
-        video.dataset.HBresult = RESULTS.FACE;
-        video.HBpositiveCount = currentPositiveCount + !isPrevResultClear;
-        video.HBnegativeCount = 0;
+        video.dataset.RPresult = RESULTS.FACE;
+        video.RPpositiveCount = currentPositiveCount + !isPrevResultClear;
+        video.RPnegativeCount = 0;
         // if the positive count is greater than the threshold (i.e it's not a momentary blip), add the blur
         if (currentPositiveCount + !isPrevResultClear >= POSITIVE_THRESHOLD) {
             // video.pause()
             shouldBlur = true;
-            video.HBpositiveCount = 0;
+            video.RPpositiveCount = 0;
         }
     } else {
-        video.dataset.HBresult = RESULTS.CLEAR;
-        video.HBnegativeCount = currentNegativeCount + isPrevResultClear;
-        video.HBpositiveCount = 0;
+        video.dataset.RPresult = RESULTS.CLEAR;
+        video.RPnegativeCount = currentNegativeCount + isPrevResultClear;
+        video.RPpositiveCount = 0;
         // if the negative count is greater than the threshold (i.e it's not a momentary blip), remove the blur
         if (currentNegativeCount + isPrevResultClear >= NEGATIVE_THRESHOLD) {
             shouldBlur = false;
-            video.HBnegativeCount = 0;
+            video.RPnegativeCount = 0;
         }
     }
 
     if (shouldBlur !== null) {
         shouldBlur
-            ? video.classList.add("hb-blur")
-            : video.classList.remove("hb-blur");
+            ? video.classList.add("rp-blur")
+            : video.classList.remove("rp-blur");
     }
 };
 export { processImage, processVideo };

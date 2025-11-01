@@ -73,23 +73,23 @@ class ErrorManager {
 
             switch (logLevel) {
                 case 'error':
-                    console.error(`HB==${type.toUpperCase()}: ${message}`, contextStr);
+                    console.error(`RP==${type.toUpperCase()}: ${message}`, contextStr);
                     break;
                 case 'warn':
-                    console.warn(`HB==${type.toUpperCase()}: ${message}`, contextStr);
+                    console.warn(`RP==${type.toUpperCase()}: ${message}`, contextStr);
                     break;
                 case 'info':
-                    console.info(`HB==${type.toUpperCase()}: ${message}`, contextStr);
+                    console.info(`RP==${type.toUpperCase()}: ${message}`, contextStr);
                     break;
                 default:
-                    console.log(`HB==${type.toUpperCase()}: ${message}`, contextStr);
+                    console.log(`RP==${type.toUpperCase()}: ${message}`, contextStr);
             }
 
             // Set rate limit if we've hit the threshold
             if (recentErrors.length >= this.maxErrorsPerType) {
                 this.setRateLimit(errorKey, now);
                 if (this.isDevelopment) {
-                    console.warn(`HB==Rate limiting ${type} errors for ${source} - too many recent errors`);
+                    console.warn(`RP==Rate limiting ${type} errors for ${source} - too many recent errors`);
                 }
             }
 

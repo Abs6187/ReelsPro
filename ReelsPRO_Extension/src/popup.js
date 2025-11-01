@@ -48,7 +48,7 @@ function getCurrentWebsite() {
             { active: true, currentWindow: true },
             function (tabs) {
                 if (!tabs || tabs.length === 0) {
-                    console.warn("HB==No active tabs found");
+                    console.warn("RP==No active tabs found");
                     currentWebsite = null;
                     resolve();
                     return;
@@ -63,7 +63,7 @@ function getCurrentWebsite() {
                         const fallbackHostname = url.hostname?.split("www.")?.[1] ?? url.hostname;
                         currentWebsite = fallbackHostname;
                     } catch (urlError) {
-                        console.warn("HB==Error parsing tab URL:", urlError);
+                        console.warn("RP==Error parsing tab URL:", urlError);
                         currentWebsite = null;
                     }
                 }
@@ -74,10 +74,10 @@ function getCurrentWebsite() {
                     { type: "getCurrentWebsite" },
                     function (response) {
                         if (chrome.runtime.lastError) {
-                            console.warn("HB==Content script not available:", chrome.runtime.lastError.message);
+                            console.warn("RP==Content script not available:", chrome.runtime.lastError.message);
                             // Keep the fallback hostname we set above
                         } else if (response?.currentWebsite) {
-                            console.log("HB==Website from content script:", response);
+                            console.log("RP==Website from content script:", response);
                             // Properly process website name - remove www. prefix
                             let websiteName = response.currentWebsite;
                             if (websiteName.startsWith('www.')) {
@@ -96,7 +96,7 @@ function getCurrentWebsite() {
                                 }
                                 currentWebsite = hostname;
                             } catch (error) {
-                                console.warn("HB==Final fallback failed:", error);
+                                console.warn("RP==Final fallback failed:", error);
                                 currentWebsite = "unknown";
                             }
                         }
@@ -116,8 +116,8 @@ function getCurrentWebsite() {
 
 function loadLocalSettings() {
     return new Promise(function (resolve) {
-        chrome.storage.sync.get(["hb-settings"], function (storage) {
-            settings = storage["hb-settings"];
+        chrome.storage.sync.get(["rp-settings"], function (storage) {
+            settings = storage["rp-settings"];
             resolve();
         });
     });
@@ -125,7 +125,7 @@ function loadLocalSettings() {
 
 function updateDetectionStatus() {
     if (!currentWebsite) {
-        console.warn("HB==No website detected for status update");
+        console.warn("RP==No website detected for status update");
         return;
     }
     
@@ -278,7 +278,7 @@ function displayWhiteList(skipSet = false) {
 
 function updateStatus() {
     settings.status = document.querySelector("input[name=status]").checked;
-    chrome.storage.sync.set({ "hb-settings": settings });
+    chrome.storage.sync.set({ "rp-settings": settings });
     toggleAllInputs();
     sendUpdatedSettings("status");
     showRefreshMessage("status");
@@ -290,7 +290,7 @@ function updateBlurAmount() {
     ).value;
     document.querySelector("span[id=blur-amount-value]").textContent =
         settings.blurAmount + "%";
-    chrome.storage.sync.set({ "hb-settings": settings });
+    chrome.storage.sync.set({ "rp-settings": settings });
     sendUpdatedSettings("blurAmount");
     showRefreshMessage("blurAmount");
 }
@@ -303,7 +303,7 @@ function updateStrictness() {
     document.querySelector("span[id=strictness-value]").textContent =
         +settings.strictness * 100 + "%";
 
-    chrome.storage.sync.set({ "hb-settings": settings });
+    chrome.storage.sync.set({ "rp-settings": settings });
     sendUpdatedSettings("strictness");
     showRefreshMessage("strictness");
 }
@@ -313,7 +313,7 @@ function updateCheckbox(key) {
         settings[key] = document.querySelector(
             "input[name=" + key + "]"
         ).checked;
-        chrome.storage.sync.set({ "hb-settings": settings });
+        chrome.storage.sync.set({ "rp-settings": settings });
         sendUpdatedSettings(key);
         showRefreshMessage(key);
     };
@@ -321,7 +321,7 @@ function updateCheckbox(key) {
 
 function changeLanguage(lang, settings) {
     document.body.lang = lang;
-    document.getElementById("container").dir = HB_TRANSLATIONS_DIR[lang];
+    document.getElementById("container").dir = RP_TRANSLATIONS_DIR[lang];
 
     const translations = getTranslations(settings)?.[lang];
     const keys = Object.keys(translations);
@@ -337,14 +337,14 @@ function changeLanguage(lang, settings) {
             // Text is from controlled translation files, not user input
             element.innerHTML = text;
             // change direction of element
-            if (HB_TRANSLATIONS_DIR[lang]) {
-                element.dir = HB_TRANSLATIONS_DIR[lang];
+            if (RP_TRANSLATIONS_DIR[lang]) {
+                element.dir = RP_TRANSLATIONS_DIR[lang];
             }
         });
     });
 
     settings.language = lang;
-    chrome.storage.sync.set({ "hb-settings": settings });
+    chrome.storage.sync.set({ "rp-settings": settings });
 }
 
 function updateWhitelist(e) {
@@ -355,7 +355,7 @@ function updateWhitelist(e) {
     } else {
         settings.whitelist.push(currentWebsite);
     }
-    chrome.storage.sync.set({ "hb-settings": settings });
+    chrome.storage.sync.set({ "rp-settings": settings });
     sendUpdatedSettings("whitelist");
     showRefreshMessage("whitelist");
     displayWhiteList(true);

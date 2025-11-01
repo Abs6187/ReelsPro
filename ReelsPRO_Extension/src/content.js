@@ -39,7 +39,7 @@ if (window.self === window.top) {
                             window.location.hostname
                     )
             ) {
-                console.log("HB==WHITELISTED SITE");
+                console.log("RP==WHITELISTED SITE");
                 killObserver();
                 return;
             }
@@ -48,6 +48,6 @@ if (window.self === window.top) {
             settings.toggleOnOffStatus();
         })
         .catch((e) => {
-            console.log("HB==INITIALIZATION ERROR", e);
+            console.log("RP==INITIALIZATION ERROR", e);
         });
 }

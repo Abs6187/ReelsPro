@@ -12,27 +12,27 @@ var detector = new Detector();
 
 const loadModels = async () => {
     try {
-        console.log("HB==Starting model loading...");
+        console.log("RP==Starting model loading...");
         
         // Load Human model with progress
-        console.log("HB==Loading Human library...");
+        console.log("RP==Loading Human library...");
         await detector.initHuman();
-        console.log("HB==Human library loaded successfully");
+        console.log("RP==Human library loaded successfully");
         
         // Load NSFW model with progress
-        console.log("HB==Loading NSFW model...");
+        console.log("RP==Loading NSFW model...");
         await detector.initNsfwModel();
-        console.log("HB==NSFW model loaded successfully");
+        console.log("RP==NSFW model loaded successfully");
         
         // Add error listener
         detector.human.events?.addEventListener("error", (e) => {
-            console.error("HB==Human library error:", e);
+            console.error("RP==Human library error:", e);
             chrome.runtime.sendMessage({ type: "reloadExtension" });
         });
         
-        console.log("HB==All models loaded successfully");
+        console.log("RP==All models loaded successfully");
     } catch (e) {
-        console.error("HB==Error loading models:", e);
+        console.error("RP==Error loading models:", e);
         throw e;
     }
 };
@@ -54,7 +54,7 @@ const handleImageDetection = (request, sender, sendResponse) => {
                 try {
                     sendResponse(result);
                 } catch (responseError) {
-                    console.error("HB==Error sending response:", responseError);
+                    console.error("RP==Error sending response:", responseError);
                 }
             },
             (error) => {
@@ -67,12 +67,12 @@ const handleImageDetection = (request, sender, sendResponse) => {
                 try {
                     sendResponse(errorResponse);
                 } catch (responseError) {
-                    console.error("HB==Error sending error response:", responseError);
+                    console.error("RP==Error sending error response:", responseError);
                 }
             }
         );
     } catch (error) {
-        console.error("HB==Error in handleImageDetection:", error);
+        console.error("RP==Error in handleImageDetection:", error);
         try {
             sendResponse({
                 type: "error",
@@ -80,7 +80,7 @@ const handleImageDetection = (request, sender, sendResponse) => {
                 code: "HANDLER_ERROR"
             });
         } catch (responseError) {
-            console.error("HB==Error sending handler error response:", responseError);
+            console.error("RP==Error sending handler error response:", responseError);
         }
     }
 };
@@ -113,7 +113,7 @@ const handleVideoDetection = async (request, sender, sendResponse) => {
         const timeoutId = setTimeout(() => {
             if (activeFrame) {
                 activeFrame = false;
-                console.warn("HB==Video detection timeout");
+                console.warn("RP==Video detection timeout");
                 sendResponse({ 
                     result: "error", 
                     message: "Detection timeout",
@@ -130,7 +130,7 @@ const handleVideoDetection = async (request, sender, sendResponse) => {
                     sendResponse({ type: "detectionResult", result, timestamp });
                 })
                 .catch((error) => {
-                    console.error("HB==Error in video detection:", error);
+                    console.error("RP==Error in video detection:", error);
                     activeFrame = false;
                     sendResponse({ 
                         result: "error",
@@ -142,7 +142,7 @@ const handleVideoDetection = async (request, sender, sendResponse) => {
         
         frameImage.onerror = (error) => {
             clearTimeout(timeoutId);
-            console.error("HB==Frame image load error:", error);
+            console.error("RP==Frame image load error:", error);
             activeFrame = false;
             sendResponse({ 
                 result: "error",
@@ -153,7 +153,7 @@ const handleVideoDetection = async (request, sender, sendResponse) => {
         
         frameImage.src = data;
     } catch (error) {
-        console.error("HB==Error in handleVideoDetection:", error);
+        console.error("RP==Error in handleVideoDetection:", error);
         activeFrame = false;
         sendResponse({ 
             result: "error",
@@ -214,7 +214,7 @@ const runDetection = async (img, isVideo = false) => {
         
         return false;
     } catch (error) {
-        console.error("HB==Detection error:", error);
+        console.error("RP==Detection error:", error);
         throw new Error(`Detection failed: ${error.message}`);
     } finally {
         // Always dispose tensor to prevent memory leaks
@@ -222,7 +222,7 @@ const runDetection = async (img, isVideo = false) => {
             try {
                 detector.human.tf.dispose(tensor);
             } catch (disposeError) {
-                console.warn("HB==Error disposing tensor:", disposeError);
+                console.warn("RP==Error disposing tensor:", disposeError);
             }
         }
         activeFrame = false;
@@ -231,10 +231,10 @@ const runDetection = async (img, isVideo = false) => {
 
 const init = async () => {
     try {
-        console.log("HB==Initializing offscreen worker...");
+        console.log("RP==Initializing offscreen worker...");
         
         // Load settings
-        console.log("HB==Loading settings...");
+        console.log("RP==Loading settings...");
         let _settings = await new Promise((resolve, reject) => {
             chrome.runtime.sendMessage({ type: "getSettings" }, (settings) => {
                 if (chrome.runtime.lastError) {
@@ -246,21 +246,21 @@ const init = async () => {
         });
         
         settings = await Settings.init(_settings);
-        console.log("HB==Settings loaded successfully");
+        console.log("RP==Settings loaded successfully");
         
         // Load models with progress tracking
         await loadModels();
         
         // Initialize queue and start listening
-        console.log("HB==Initializing processing queue...");
+        console.log("RP==Initializing processing queue...");
         queue = new Queue(runDetection);
         
-        console.log("HB==Starting message listeners...");
+        console.log("RP==Starting message listeners...");
         startListening();
         
-        console.log("HB==Offscreen worker initialization complete");
+        console.log("RP==Offscreen worker initialization complete");
     } catch (error) {
-        console.error("HB==Failed to initialize offscreen worker:", error);
+        console.error("RP==Failed to initialize offscreen worker:", error);
         chrome.runtime.sendMessage({ type: "reloadExtension" });
     }
 };

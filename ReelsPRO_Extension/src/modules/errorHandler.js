@@ -119,11 +119,11 @@ export class ErrorLogger {
         // Log to console with appropriate level
         const severity = errorData.error.severity;
         if (severity === ERROR_SEVERITY.CRITICAL || severity === ERROR_SEVERITY.HIGH) {
-            console.error('HB==CRITICAL ERROR:', errorData);
+            console.error('RP==CRITICAL ERROR:', errorData);
         } else if (severity === ERROR_SEVERITY.MEDIUM) {
-            console.warn('HB==ERROR:', errorData);
+            console.warn('RP==ERROR:', errorData);
         } else {
-            console.log('HB==INFO:', errorData);
+            console.log('RP==INFO:', errorData);
         }
 
         // Could be extended to send to analytics service
@@ -131,7 +131,7 @@ export class ErrorLogger {
     }
 
     static logInfo(message, context = {}) {
-        console.log('HB==INFO:', {
+        console.log('RP==INFO:', {
             timestamp: new Date().toISOString(),
             message,
             context
@@ -139,7 +139,7 @@ export class ErrorLogger {
     }
 
     static logWarning(message, context = {}) {
-        console.warn('HB==WARNING:', {
+        console.warn('RP==WARNING:', {
             timestamp: new Date().toISOString(),
             message,
             context

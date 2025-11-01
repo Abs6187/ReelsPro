@@ -21,16 +21,16 @@ const defaultSettings = {
 const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
 
 browserAPI.runtime.onInstalled.addListener(function () {
-    browserAPI.storage.sync.get(["hb-settings"], function (result) {
+    browserAPI.storage.sync.get(["rp-settings"], function (result) {
         if (
-            result["hb-settings"] === undefined ||
-            result["hb-settings"] === null
+            result["rp-settings"] === undefined ||
+            result["rp-settings"] === null
         ) {
-            browserAPI.storage.sync.set({ "hb-settings": defaultSettings });
+            browserAPI.storage.sync.set({ "rp-settings": defaultSettings });
         } else {
             // if there are any new settings, add them to the settings object
             browserAPI.storage.sync.set({
-                "hb-settings": { ...defaultSettings, ...result["hb-settings"] },
+                "rp-settings": { ...defaultSettings, ...result["rp-settings"] },
             });
         }
     });
@@ -39,9 +39,9 @@ browserAPI.runtime.onInstalled.addListener(function () {
 browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
     try {
         if (request.type === "getSettings") {
-            browserAPI.storage.sync.get(["hb-settings"], function (result) {
+            browserAPI.storage.sync.get(["rp-settings"], function (result) {
                 try {
-                    const settings = result["hb-settings"] || defaultSettings;
+                    const settings = result["rp-settings"] || defaultSettings;
                     sendResponse(settings);
 
                     const isVideoEnabled = settings.status && settings.blurVideos;
@@ -54,11 +54,11 @@ browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             : "Please enable video detection in settings",
                     }, () => {
                         if (browserAPI.runtime.lastError) {
-                            console.warn("HB==Context menu update error:", browserAPI.runtime.lastError);
+                            console.warn("RP==Context menu update error:", browserAPI.runtime.lastError);
                         }
                     });
                 } catch (error) {
-                    console.error("HB==Error processing getSettings:", error);
+                    console.error("RP==Error processing getSettings:", error);
                     sendResponse(defaultSettings);
                 }
             });
@@ -68,20 +68,20 @@ browserAPI.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 checked: request.status,
             }, () => {
                 if (browserAPI.runtime.lastError) {
-                    console.warn("HB==Context menu video-status update error:", browserAPI.runtime.lastError);
+                    console.warn("RP==Context menu video-status update error:", browserAPI.runtime.lastError);
                 }
             });
             return true;
         } else if (request.type === "reloadExtension") {
             try {
                 // Firefox doesn't support offscreen API, so we skip this
-                console.log("HB==Extension reload requested (Firefox - no offscreen support)");
+                console.log("RP==Extension reload requested (Firefox - no offscreen support)");
             } catch (error) {
-                console.error("HB==Error reloading extension:", error);
+                console.error("RP==Error reloading extension:", error);
             }
         }
     } catch (error) {
-        console.error("HB==Error in message listener:", error);
+        console.error("RP==Error in message listener:", error);
         if (sendResponse) {
             sendResponse({ error: "Internal error occurred" });
         }
@@ -101,10 +101,10 @@ browserAPI.contextMenus.create({
 
 browserAPI.contextMenus.onClicked.addListener((info, tab) => {
     try {
-        console.log("HB==Context menu clicked", info, tab);
+        console.log("RP==Context menu clicked", info, tab);
         
         if (!tab || !tab.id) {
-            console.error("HB==Invalid tab information");
+            console.error("RP==Invalid tab information");
             return;
         }
 
@@ -115,14 +115,14 @@ browserAPI.contextMenus.onClicked.addListener((info, tab) => {
             
             browserAPI.tabs.sendMessage(tab.id, message, (response) => {
                 if (browserAPI.runtime.lastError) {
-                    console.warn("HB==Error sending message to tab:", browserAPI.runtime.lastError);
+                    console.warn("RP==Error sending message to tab:", browserAPI.runtime.lastError);
                 } else {
-                    console.log("HB==Context menu action sent successfully");
+                    console.log("RP==Context menu action sent successfully");
                 }
             });
         }
     } catch (error) {
-        console.error("HB==Error in context menu click handler:", error);
+        console.error("RP==Error in context menu click handler:", error);
     }
     
     return true;
