@@ -105,10 +105,7 @@ const loadImage = async (imgSrc, imgWidth, imgHeight) => {
             newImg.onerror = (e) => {
                 if (useCors && !corsAttempted) {
                     corsAttempted = true;
-                    // Only log CORS warning once per image
-                    if (!errorManager.isRateLimited(`cors:${new URL(imgSrc).hostname}`)) {
-                        errorManager.logError('cors', `CORS failed for image, trying without crossorigin: ${imgSrc}`, {}, new URL(imgSrc).hostname);
-                    }
+                    // Silently retry without CORS - no logging in production
                     tryLoad(false);
                 } else {
                     handleFailure(e, corsAttempted);
@@ -217,10 +214,7 @@ const loadVideo = async (video) => {
             video.onerror = (e) => {
                 if (useCors && !corsAttempted) {
                     corsAttempted = true;
-                    // Rate-limited CORS warning
-                    if (!errorManager.isRateLimited(`cors:${videoSrc ? new URL(videoSrc).hostname : 'unknown'}`)) {
-                        errorManager.logError('cors', `CORS failed for video, trying without crossorigin: ${videoSrc}`, {}, videoSrc ? new URL(videoSrc).hostname : 'unknown');
-                    }
+                    // Silently retry without CORS - no logging in production
                     tryLoadVideo(false);
                 } else {
                     handleFailure("Failed to load video: " + (e.message || e), corsAttempted);

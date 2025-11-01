@@ -30,21 +30,45 @@ chrome.runtime.onInstalled.addListener(function () {
             });
         }
     });
+
+    // Recreate context menu on install/update
+    chrome.contextMenus.removeAll(() => {
+        createContextMenu();
+    });
+
+    // Ensure offscreen document exists
+    createOffscreenDoc();
 });
 
-const createOffscreenDoc = () => {
-    chrome?.offscreen
-        .createDocument({
-            url: chrome.runtime.getURL("src/offscreen.html"),
-            reasons: ["DOM_PARSER"],
-            justification: "Process Images",
-        })
-        .then((document) => {
-            console.log("offscreen document created");
-        })
-        .finally(() => {});
+const createOffscreenDoc = async () => {
+    try {
+        // Check if offscreen document already exists
+        if (chrome?.offscreen) {
+            const existingDocuments = await chrome.offscreen.hasDocument?.() || false;
+
+            if (existingDocuments) {
+                console.log("HB==Offscreen document already exists");
+                return;
+            }
+
+            await chrome.offscreen.createDocument({
+                url: chrome.runtime.getURL("src/offscreen.html"),
+                reasons: ["DOM_PARSER"],
+                justification: "Process Images",
+            });
+            console.log("HB==Offscreen document created successfully");
+        }
+    } catch (error) {
+        // Silently handle duplicate offscreen document error
+        if (error.message?.includes("Only a single offscreen document")) {
+            console.log("HB==Offscreen document already exists (caught)");
+        } else {
+            console.error("HB==Error creating offscreen document:", error);
+        }
+    }
 };
 
+// Create offscreen document on startup
 createOffscreenDoc();
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -107,14 +131,34 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // context menu: "enable detection on this video"
-chrome.contextMenus.create({
-    id: "enable-detection",
-    title: "Enable for this video",
-    contexts: ["all"],
-    type: "checkbox",
-    enabled: true,
-    checked: true,
-});
+const createContextMenu = () => {
+    try {
+        chrome.contextMenus.create({
+            id: "enable-detection",
+            title: "Enable for this video",
+            contexts: ["all"],
+            type: "checkbox",
+            enabled: true,
+            checked: true,
+        }, () => {
+            if (chrome.runtime.lastError) {
+                // Menu item already exists, ignore
+                if (chrome.runtime.lastError.message?.includes("duplicate id")) {
+                    console.log("HB==Context menu already exists");
+                } else {
+                    console.error("HB==Context menu creation error:", chrome.runtime.lastError);
+                }
+            } else {
+                console.log("HB==Context menu created successfully");
+            }
+        });
+    } catch (error) {
+        console.error("HB==Error in context menu creation:", error);
+    }
+};
+
+// Create context menu on startup
+createContextMenu();
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     try {

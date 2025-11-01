@@ -12,6 +12,13 @@ class ErrorManager {
         this.rateLimitWindow = 60000; // 1 minute
         this.backoffMultiplier = 2;
         this.maxBackoffTime = 300000; // 5 minutes
+
+        // Production mode detection - only log critical errors in production
+        this.isProduction = true; // Will be removed by Terser in production
+        this.isDevelopment = false;
+
+        // Types of errors that should NEVER be logged in production
+        this.silentInProduction = ['cors', 'image_load', 'video_load'];
     }
 
     /**
@@ -48,11 +55,22 @@ class ErrorManager {
         const recentErrors = errorHistory.filter(timestamp => timestamp > cutoff);
         this.errorHistory.set(errorKey, recentErrors);
 
+        // In production, suppress non-critical errors
+        if (this.isProduction && this.silentInProduction.includes(type)) {
+            return false; // Silently track but don't log
+        }
+
         // Only log if under the rate limit
         if (recentErrors.length <= this.maxErrorsPerType) {
             const logLevel = this.getLogLevel(type, recentErrors.length);
+
+            // Skip logging in production for non-critical errors
+            if (!this.shouldLog(type, logLevel)) {
+                return false;
+            }
+
             const contextStr = Object.keys(context).length > 0 ? JSON.stringify(context) : '';
-            
+
             switch (logLevel) {
                 case 'error':
                     console.error(`HB==${type.toUpperCase()}: ${message}`, contextStr);
@@ -70,13 +88,29 @@ class ErrorManager {
             // Set rate limit if we've hit the threshold
             if (recentErrors.length >= this.maxErrorsPerType) {
                 this.setRateLimit(errorKey, now);
-                console.warn(`HB==Rate limiting ${type} errors for ${source} - too many recent errors`);
+                if (this.isDevelopment) {
+                    console.warn(`HB==Rate limiting ${type} errors for ${source} - too many recent errors`);
+                }
             }
 
             return true; // Error was logged
         }
 
         return false; // Error was suppressed due to rate limiting
+    }
+
+    /**
+     * Determine if an error should be logged based on environment and severity
+     */
+    shouldLog(type, logLevel) {
+        // In production, only log critical errors
+        if (this.isProduction) {
+            // Only log DOM exceptions and critical video processing errors
+            return type === 'dom_exception' ||
+                   (type === 'video_processing' && logLevel === 'error');
+        }
+        // In development, log everything
+        return true;
     }
 
     /**
