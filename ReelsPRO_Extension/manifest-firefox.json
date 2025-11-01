@@ -12,20 +12,15 @@
         "default_popup": "src/popup.html"
     },
     "background": {
-        "scripts": ["src/background-firefox.js"],
-        "type": "module"
+        "scripts": ["src/background.js"]
     },
     "browser_specific_settings": {
         "gecko": {
             "id": "reelspro@reelspro.extension",
-            "strict_min_version": "109.0",
-            "data_collection_permissions": {
-                "required": ["none"]
-            }
+            "strict_min_version": "112.0"
         }
     },
     "icons": {
-        "16": "src/assets/rp-icon-48.png",
         "48": "src/assets/rp-icon-48.png",
         "128": "src/assets/rp-icon-128.png"
     },
