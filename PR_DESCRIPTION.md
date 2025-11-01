@@ -10,6 +10,13 @@ This PR releases **ReelsPRO Browser Extension v0.2.9** with full compliance for 
 - Bumped version to **0.2.9** across all manifests and package.json
 - Updated BUILD_INSTRUCTIONS.md to version 1.1
 
+### 📦 **NEW: Complete Source Code Package**
+- Created `reelspro-source-v0.2.9.zip` for Firefox AMO source code submission
+- Includes all source files, build scripts, and documentation
+- **Build tested and verified** - successfully reproduces extension-firefox.zip
+- Size: ~18MB (51 files total)
+- Contains: All source code, all 7 model files, build scripts, package.json with locked dependencies
+
 ### 🦊 Firefox AMO Compliance
 
 Following **Firefox Extension Workshop** guidelines, all validation errors have been fixed:
@@ -97,10 +104,12 @@ Both extension packages include:
 ## 🚀 Ready for Submission
 
 ### Firefox Add-ons (AMO)
-- **File**: `ReelsPRO_Extension/extension-firefox.zip`
+- **Built Extension**: `ReelsPRO_Extension/extension-firefox.zip` (~18MB)
+- **Source Code**: `ReelsPRO_Extension/reelspro-source-v0.2.9.zip` (~18MB) - **NEW!**
 - **Status**: ✅ **READY - No errors expected**
-- **Size**: ~18MB
-- **Submission**: Upload to addons.mozilla.org
+- **Submission**: Upload both files to addons.mozilla.org
+  - Upload Version: extension-firefox.zip
+  - Source Code: reelspro-source-v0.2.9.zip
 
 ### Chrome Web Store
 - **File**: `ReelsPRO_Extension/extension-chrome.zip`
@@ -125,6 +134,7 @@ Both extension packages include:
 ### Distribution
 - `ReelsPRO_Extension/extension-firefox.zip` - Firefox-ready package
 - `ReelsPRO_Extension/extension-chrome.zip` - Chrome-ready package
+- `ReelsPRO_Extension/reelspro-source-v0.2.9.zip` - **NEW** Complete source code package for AMO
 
 ## 📚 References
 
@@ -141,6 +151,8 @@ Both extension packages include:
 - [x] Extension packages tested and validated
 - [x] Model files included in both packages
 - [x] ZIP structure correct (files at root)
+- [x] **Source code package created and tested**
+- [x] **Reproducible build verified**
 - [x] All commits properly documented
 
 ## 🎉 Impact
