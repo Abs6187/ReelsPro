@@ -13,7 +13,7 @@ const getNsfwUrl = () => {
     try {
         return chrome.runtime.getURL(MODEL_PATHS.nsfw);
     } catch (error) {
-        console.error("HB==Failed to get NSFW model URL:", error);
+        console.error("RP==Failed to get NSFW model URL:", error);
         throw new Error("NSFW model path not accessible");
     }
 };
@@ -181,22 +181,22 @@ class Detector {
 
             // if the model exists in indexedDB, load it from there
             if (indexedDBModel?.["indexeddb://nsfw-model"]) {
-                console.log("HB==Loading NSFW model from IndexedDB");
+                console.log("RP==Loading NSFW model from IndexedDB");
                 this._nsfwModel = await this._human.tf.loadGraphModel(
                     "indexeddb://nsfw-model"
                 );
             }
             // otherwise load it from the url
             else {
-                console.log("HB==Loading NSFW model from URL");
+                console.log("RP==Loading NSFW model from URL");
                 const nsfwUrl = getNsfwUrl();
                 this._nsfwModel = await this._human.tf.loadGraphModel(nsfwUrl);
                 // save the model to indexedDB
                 try {
                     await this._nsfwModel.save("indexeddb://nsfw-model");
-                    console.log("HB==NSFW model saved to IndexedDB");
+                    console.log("RP==NSFW model saved to IndexedDB");
                 } catch (saveError) {
-                    console.warn("HB==Failed to save NSFW model to IndexedDB:", saveError);
+                    console.warn("RP==Failed to save NSFW model to IndexedDB:", saveError);
                 }
             }
             
@@ -204,9 +204,9 @@ class Detector {
             const tensor = this._human.tf.zeros([1, 224, 224, 3]);
             await this._nsfwModel.predict(tensor);
             this._human.tf.dispose(tensor);
-            console.log("HB==NSFW model warmed up");
+            console.log("RP==NSFW model warmed up");
         } catch (error) {
-            console.error("HB==Failed to initialize NSFW model:", error);
+            console.error("RP==Failed to initialize NSFW model:", error);
             throw new Error(`NSFW model initialization failed: ${error.message}`);
         }
     };
@@ -263,7 +263,7 @@ class Detector {
                 skipFrame = similarity >= adaptiveSensitivity;
             }
         } catch (error) {
-            console.error("HB==Cache skip error:", error);
+            console.error("RP==Cache skip error:", error);
             this.clearCache();
             skipFrame = false;
         }
@@ -289,7 +289,7 @@ class Detector {
             
             tf.dispose([diff, squared, mean]);
         } catch (error) {
-            console.error("HB==Similarity calculation error:", error);
+            console.error("RP==Similarity calculation error:", error);
         }
         
         return similarity;
@@ -380,7 +380,7 @@ class Detector {
 
             return this.nsfwCache.predictions;
         } catch (error) {
-            console.error("HB==NSFW Detection Error", resized || tensor, error);
+            console.error("RP==NSFW Detection Error", resized || tensor, error);
         }
     };
 

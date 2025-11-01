@@ -17,42 +17,66 @@ const defaultSettings = {
 };
 
 chrome.runtime.onInstalled.addListener(function () {
-    chrome.storage.sync.get(["hb-settings"], function (result) {
+    chrome.storage.sync.get(["rp-settings"], function (result) {
         if (
-            result["hb-settings"] === undefined ||
-            result["hb-settings"] === null
+            result["rp-settings"] === undefined ||
+            result["rp-settings"] === null
         ) {
-            chrome.storage.sync.set({ "hb-settings": defaultSettings });
+            chrome.storage.sync.set({ "rp-settings": defaultSettings });
         } else {
             // if there are any new settings, add them to the settings object
             chrome.storage.sync.set({
-                "hb-settings": { ...defaultSettings, ...result["hb-settings"] },
+                "rp-settings": { ...defaultSettings, ...result["rp-settings"] },
             });
         }
     });
+
+    // Recreate context menu on install/update
+    chrome.contextMenus.removeAll(() => {
+        createContextMenu();
+    });
+
+    // Ensure offscreen document exists
+    createOffscreenDoc();
 });
 
-const createOffscreenDoc = () => {
-    chrome?.offscreen
-        .createDocument({
-            url: chrome.runtime.getURL("src/offscreen.html"),
-            reasons: ["DOM_PARSER"],
-            justification: "Process Images",
-        })
-        .then((document) => {
-            console.log("offscreen document created");
-        })
-        .finally(() => {});
+const createOffscreenDoc = async () => {
+    try {
+        // Check if offscreen document already exists
+        if (chrome?.offscreen) {
+            const existingDocuments = await chrome.offscreen.hasDocument?.() || false;
+
+            if (existingDocuments) {
+                console.log("RP==Offscreen document already exists");
+                return;
+            }
+
+            await chrome.offscreen.createDocument({
+                url: chrome.runtime.getURL("src/offscreen.html"),
+                reasons: ["DOM_PARSER"],
+                justification: "Process Images",
+            });
+            console.log("RP==Offscreen document created successfully");
+        }
+    } catch (error) {
+        // Silently handle duplicate offscreen document error
+        if (error.message?.includes("Only a single offscreen document")) {
+            console.log("RP==Offscreen document already exists (caught)");
+        } else {
+            console.error("RP==Error creating offscreen document:", error);
+        }
+    }
 };
 
+// Create offscreen document on startup
 createOffscreenDoc();
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     try {
         if (request.type === "getSettings") {
-            chrome.storage.sync.get(["hb-settings"], function (result) {
+            chrome.storage.sync.get(["rp-settings"], function (result) {
                 try {
-                    const settings = result["hb-settings"] || defaultSettings;
+                    const settings = result["rp-settings"] || defaultSettings;
                     sendResponse(settings);
 
                     const isVideoEnabled = settings.status && settings.blurVideos;
@@ -65,11 +89,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                             : "Please enable video detection in settings",
                     }, () => {
                         if (chrome.runtime.lastError) {
-                            console.warn("HB==Context menu update error:", chrome.runtime.lastError);
+                            console.warn("RP==Context menu update error:", chrome.runtime.lastError);
                         }
                     });
                 } catch (error) {
-                    console.error("HB==Error processing getSettings:", error);
+                    console.error("RP==Error processing getSettings:", error);
                     sendResponse(defaultSettings);
                 }
             });
@@ -79,7 +103,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 checked: request.status,
             }, () => {
                 if (chrome.runtime.lastError) {
-                    console.warn("HB==Context menu video-status update error:", chrome.runtime.lastError);
+                    console.warn("RP==Context menu video-status update error:", chrome.runtime.lastError);
                 }
             });
             return true;
@@ -87,18 +111,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             try {
                 // kill the offscreen document
                 chrome?.offscreen?.closeDocument().catch(err => {
-                    console.warn("HB==Error closing offscreen document:", err);
+                    console.warn("RP==Error closing offscreen document:", err);
                 });
                 // recreate the offscreen document
                 setTimeout(() => {
                     createOffscreenDoc();
                 }, 100);
             } catch (error) {
-                console.error("HB==Error reloading extension:", error);
+                console.error("RP==Error reloading extension:", error);
             }
         }
     } catch (error) {
-        console.error("HB==Error in message listener:", error);
+        console.error("RP==Error in message listener:", error);
         if (sendResponse) {
             sendResponse({ error: "Internal error occurred" });
         }
@@ -107,21 +131,41 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // context menu: "enable detection on this video"
-chrome.contextMenus.create({
-    id: "enable-detection",
-    title: "Enable for this video",
-    contexts: ["all"],
-    type: "checkbox",
-    enabled: true,
-    checked: true,
-});
+const createContextMenu = () => {
+    try {
+        chrome.contextMenus.create({
+            id: "enable-detection",
+            title: "Enable for this video",
+            contexts: ["all"],
+            type: "checkbox",
+            enabled: true,
+            checked: true,
+        }, () => {
+            if (chrome.runtime.lastError) {
+                // Menu item already exists, ignore
+                if (chrome.runtime.lastError.message?.includes("duplicate id")) {
+                    console.log("RP==Context menu already exists");
+                } else {
+                    console.error("RP==Context menu creation error:", chrome.runtime.lastError);
+                }
+            } else {
+                console.log("RP==Context menu created successfully");
+            }
+        });
+    } catch (error) {
+        console.error("RP==Error in context menu creation:", error);
+    }
+};
+
+// Create context menu on startup
+createContextMenu();
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
     try {
-        console.log("HB==Context menu clicked", info, tab);
+        console.log("RP==Context menu clicked", info, tab);
         
         if (!tab || !tab.id) {
-            console.error("HB==Invalid tab information");
+            console.error("RP==Invalid tab information");
             return;
         }
 
@@ -132,14 +176,14 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
             
             chrome.tabs.sendMessage(tab.id, message, (response) => {
                 if (chrome.runtime.lastError) {
-                    console.warn("HB==Error sending message to tab:", chrome.runtime.lastError);
+                    console.warn("RP==Error sending message to tab:", chrome.runtime.lastError);
                 } else {
-                    console.log("HB==Context menu action sent successfully");
+                    console.log("RP==Context menu action sent successfully");
                 }
             });
         }
     } catch (error) {
-        console.error("HB==Error in context menu click handler:", error);
+        console.error("RP==Error in context menu click handler:", error);
     }
     
     return true;

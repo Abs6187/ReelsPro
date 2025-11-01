@@ -1,27 +1,33 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "ReelsPRO",
     "description": "Protect your privacy and uphold values by auto detecting & blurring images and videos of unwanted or impermissible content.",
-    "version": "0.2.6",
-    "permissions": ["storage", "contextMenus", "https://*/*", "http://*/*"],
+    "version": "0.2.7",
+    "permissions": ["storage", "contextMenus"],
+    "host_permissions": ["https://*/*", "http://*/*"],
     "author": "contact2abhaygupta@gmail.com",
-    "browser_action": {
+    "homepage_url": "https://github.com/Abs6187/ReelsPRO",
+    "action": {
         "default_title": "ReelsPRO",
         "default_popup": "src/popup.html"
     },
     "background": {
-        "scripts": ["src/background.js"],
-        "persistent": false
+        "scripts": ["src/background-firefox.js"],
+        "type": "module"
     },
     "browser_specific_settings": {
         "gecko": {
             "id": "reelspro@reelspro.extension",
-            "strict_min_version": "109.0"
+            "strict_min_version": "109.0",
+            "data_collection_permissions": {
+                "required": ["none"]
+            }
         }
     },
     "icons": {
-        "48": "src/assets/hb-icon-48.png",
-        "128": "src/assets/hb-icon-128.png"
+        "16": "src/assets/rp-icon-48.png",
+        "48": "src/assets/rp-icon-48.png",
+        "128": "src/assets/rp-icon-128.png"
     },
     "content_scripts": [
         {
@@ -30,5 +36,10 @@
             "run_at": "document_start"
         }
     ],
-    "web_accessible_resources": ["src/assets/*", "tfjs/*"]
+    "web_accessible_resources": [
+        {
+            "resources": ["src/assets/*", "tfjs/*"],
+            "matches": ["https://*/*", "http://*/*"]
+        }
+    ]
 }

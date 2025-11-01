@@ -88,7 +88,7 @@ const getTranslations = (settings = {}) => {
     };
 };
 
-const HB_TRANSLATIONS_DIR = {
+const RP_TRANSLATIONS_DIR = {
     en: "ltr",
     hindi: "hi",
 };

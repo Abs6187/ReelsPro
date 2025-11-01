@@ -84,9 +84,9 @@ const attachObserversListener = () => {
         }
     });
     listenToEvent("toggleOnOffStatus", () => {
-        // console.log("HB== Observers Listener", _settings.shouldDetect());
+        // console.log("RP== Observers Listener", _settings.shouldDetect());
         if (!_settings?.shouldDetect()) {
-            // console.log("HB== Observers Listener", "disconnecting");
+            // console.log("RP== Observers Listener", "disconnecting");
             mutationObserver?.disconnect();
             mutationObserver = null;
         } else {
@@ -102,7 +102,7 @@ const attachObserversListener = () => {
                 .filter(
                     // filter videos that are playing, not disabled and in process
                     (video) =>
-                        video.dataset.HBstatus === STATUSES.PROCESSING &&
+                        video.dataset.RPstatus === STATUSES.PROCESSING &&
                         !video.paused &&
                         video.currentTime > 0
                 )
@@ -113,7 +113,7 @@ const attachObserversListener = () => {
             videosInProcess
                 .filter(
                     (video) =>
-                        video.dataset.HBstatus === STATUSES.DISABLED &&
+                        video.dataset.RPstatus === STATUSES.DISABLED &&
                         !video.paused &&
                         video.currentTime > 0
                 )
@@ -150,7 +150,7 @@ function observeNode(node, srcAttribute) {
     let sourceChildren = //some videos have source instead of src attribute
         isVideo ? node.getElementsByTagName("source")?.length : 0;
     const conditions =
-        (srcAttribute || !node.dataset.HBstatus) && // has to have a new src attribute or no HBstatus (not processed yet)
+        (srcAttribute || !node.dataset.RPstatus) && // has to have a new src attribute or no RPstatus (not processed yet)
         (node.src?.length > 0 || sourceChildren > 0) && // has to have a src attribute or source children
         (isVideo
             ? true
@@ -161,7 +161,7 @@ function observeNode(node, srcAttribute) {
     }
 
     applyBlurryStart(node);
-    node.dataset.HBstatus = STATUSES.OBSERVED;
+    node.dataset.RPstatus = STATUSES.OBSERVED;
 
     if (node.src?.length || sourceChildren > 0) {
         // if there's no src attribute yet, wait for the mutation observer to catch it
@@ -172,8 +172,8 @@ function observeNode(node, srcAttribute) {
             updateBGvideoStatus(videosInProcess);
         }
     } else {
-        // remove the HBstatus if the node has no src attribute
-        delete node.dataset?.HBstatus;
+        // remove the RPstatus if the node has no src attribute
+        delete node.dataset?.RPstatus;
     }
 }
 

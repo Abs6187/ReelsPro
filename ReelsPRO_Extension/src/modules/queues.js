@@ -19,7 +19,7 @@ class Queue {
             node = await loadImage(img.src, img.width, img.height);
             await this.processNextElement(node, onSuccess, onError);
         } catch (error) {
-            console.error("HB=== image failed to load", img.src, error);
+            console.error("RP=== image failed to load", img.src, error);
             onError({
                 message: "Failed to load image",
                 src: img.src,
@@ -119,7 +119,7 @@ class Queue {
                 this.loadingQueue.push([img, onSuccess, onError]);
             }
         } catch (error) {
-            console.error("HB== addToQueue error", error);
+            console.error("RP== addToQueue error", error);
             onError({
                 message: "Failed to add image to queue",
                 error: error.message || error,

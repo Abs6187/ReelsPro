@@ -16,7 +16,7 @@ class VideoTimeTracker {
                 this.totalTimeSpent = result.videoWatchStats.totalTimeSpent || 0;
             }
         } catch (error) {
-            console.error("HB==Error loading video watch stats:", error);
+            console.error("RP==Error loading video watch stats:", error);
         }
     }
 
@@ -29,7 +29,7 @@ class VideoTimeTracker {
                 }
             });
         } catch (error) {
-            console.error("HB==Error saving video watch stats:", error);
+            console.error("RP==Error saving video watch stats:", error);
         }
     }
 
@@ -48,13 +48,13 @@ class VideoTimeTracker {
 
     createTimerOverlay(video) {
         // Check if overlay already exists
-        const existingOverlay = video.parentElement?.querySelector('.hb-video-timer');
+        const existingOverlay = video.parentElement?.querySelector('.rp-video-timer');
         if (existingOverlay) {
             return existingOverlay;
         }
 
         const overlay = document.createElement('div');
-        overlay.className = 'hb-video-timer';
+        overlay.className = 'rp-video-timer';
         overlay.style.cssText = `
             position: absolute;
             top: 10px;
@@ -73,11 +73,11 @@ class VideoTimeTracker {
         `;
 
         const currentTime = document.createElement('div');
-        currentTime.className = 'hb-timer-current';
+        currentTime.className = 'rp-timer-current';
         currentTime.style.cssText = 'font-weight: bold; color: #4CAF50;';
 
         const totalTime = document.createElement('div');
-        totalTime.className = 'hb-timer-total';
+        totalTime.className = 'rp-timer-total';
         totalTime.style.cssText = 'font-size: 11px; opacity: 0.8;';
 
         overlay.appendChild(currentTime);
@@ -107,8 +107,8 @@ class VideoTimeTracker {
     }
 
     updateTimerDisplay(video, overlay, elapsed) {
-        const currentTime = overlay.querySelector('.hb-timer-current');
-        const totalTime = overlay.querySelector('.hb-timer-total');
+        const currentTime = overlay.querySelector('.rp-timer-current');
+        const totalTime = overlay.querySelector('.rp-timer-total');
 
         if (currentTime) {
             currentTime.textContent = `⏱️ ${this.formatTime(elapsed)}`;
@@ -257,11 +257,11 @@ class VideoTimeTracker {
     }
 
     attachVideoListeners(video) {
-        if (video.dataset.hbTimeTrackerAttached) {
+        if (video.dataset.rpTimeTrackerAttached) {
             return;
         }
 
-        video.dataset.hbTimeTrackerAttached = 'true';
+        video.dataset.rpTimeTrackerAttached = 'true';
 
         video.addEventListener('play', () => {
             if (!this.activeVideos.has(video)) {

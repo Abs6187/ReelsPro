@@ -38,7 +38,7 @@ export class PerformanceMonitor {
         
         const timer = this.timers.get(name);
         if (!timer) {
-            console.warn(`HB==Timer '${name}' not found`);
+            console.warn(`RP==Timer '${name}' not found`);
             return;
         }
 
@@ -130,7 +130,7 @@ export class PerformanceMonitor {
         // Check for memory leaks
         const growth = memory.used - this.memoryBaseline;
         if (growth > 50 * 1024 * 1024) { // 50MB growth
-            console.warn('HB==Potential memory leak detected:', {
+            console.warn('RP==Potential memory leak detected:', {
                 operation,
                 growth: `${(growth / 1024 / 1024).toFixed(2)}MB`,
                 current: `${(memory.used / 1024 / 1024).toFixed(2)}MB`
@@ -154,7 +154,7 @@ export class PerformanceMonitor {
 
         const threshold = thresholds[name];
         if (threshold && value > threshold) {
-            console.warn(`HB==Performance threshold exceeded for ${name}:`, {
+            console.warn(`RP==Performance threshold exceeded for ${name}:`, {
                 value: `${value.toFixed(2)}ms`,
                 threshold: `${threshold}ms`,
                 context
@@ -229,7 +229,7 @@ export class PerformanceMonitor {
         if (!this.isEnabled) return;
         
         const summary = this.getSummary();
-        console.log('HB==Performance Summary:', summary);
+        console.log('RP==Performance Summary:', summary);
     }
 }
 

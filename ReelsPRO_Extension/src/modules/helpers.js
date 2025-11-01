@@ -105,10 +105,7 @@ const loadImage = async (imgSrc, imgWidth, imgHeight) => {
             newImg.onerror = (e) => {
                 if (useCors && !corsAttempted) {
                     corsAttempted = true;
-                    // Only log CORS warning once per image
-                    if (!errorManager.isRateLimited(`cors:${new URL(imgSrc).hostname}`)) {
-                        errorManager.logError('cors', `CORS failed for image, trying without crossorigin: ${imgSrc}`, {}, new URL(imgSrc).hostname);
-                    }
+                    // Silently retry without CORS - no logging in production
                     tryLoad(false);
                 } else {
                     handleFailure(e, corsAttempted);
@@ -217,10 +214,7 @@ const loadVideo = async (video) => {
             video.onerror = (e) => {
                 if (useCors && !corsAttempted) {
                     corsAttempted = true;
-                    // Rate-limited CORS warning
-                    if (!errorManager.isRateLimited(`cors:${videoSrc ? new URL(videoSrc).hostname : 'unknown'}`)) {
-                        errorManager.logError('cors', `CORS failed for video, trying without crossorigin: ${videoSrc}`, {}, videoSrc ? new URL(videoSrc).hostname : 'unknown');
-                    }
+                    // Silently retry without CORS - no logging in production
                     tryLoadVideo(false);
                 } else {
                     handleFailure("Failed to load video: " + (e.message || e), corsAttempted);
@@ -274,8 +268,8 @@ const calcResize = (width, height, type = "image") => {
 const hasBeenProcessed = (element) => {
     if (!element) throw new Error("No element provided");
     if (
-        element.dataset.HBstatus &&
-        element.dataset.HBstatus >= STATUSES.PROCESSING
+        element.dataset.RPstatus &&
+        element.dataset.RPstatus >= STATUSES.PROCESSING
     )
         return true;
     return false;
@@ -315,8 +309,8 @@ const resetElement = (element) => {
     // remove crossOrigin attribute
     element.removeAttribute("crossOrigin");
     // remove blur class
-    element.classList.remove("hb-blur-temp");
-    element.classList.remove("hb-blur");
+    element.classList.remove("rp-blur-temp");
+    element.classList.remove("rp-blur");
 };
 
 const emitEvent = (eventName, detail = "") => {
@@ -344,9 +338,9 @@ const getCanvas = (width, height, offscreen = true) => {
 
     if (!offscreen) {
         c =
-            document.getElementById("hb-in-canvas") ??
+            document.getElementById("rp-in-canvas") ??
             document.createElement("canvas");
-        c.id = "hb-in-canvas";
+        c.id = "rp-in-canvas";
         c.width = width;
         c.height = height;
         // uncomment this to see the canvas (debugging)
@@ -383,12 +377,12 @@ const canvToBlob = (canv, options) => {
 };
 
 const disableVideo = (video) => {
-    video.dataset.HBstatus = STATUSES.DISABLED;
-    video.classList.remove("hb-blur");
+    video.dataset.RPstatus = STATUSES.DISABLED;
+    video.classList.remove("rp-blur");
 };
 
 const enableVideo = (video) => {
-    video.dataset.HBstatus = STATUSES.PROCESSING;
+    video.dataset.RPstatus = STATUSES.PROCESSING;
 };
 
 function updateBGvideoStatus(videosInProcess) {
@@ -396,7 +390,7 @@ function updateBGvideoStatus(videosInProcess) {
     const disabledVideos =
         videosInProcess.filter(
             (video) =>
-                video.dataset.HBstatus === STATUSES.DISABLED &&
+                video.dataset.RPstatus === STATUSES.DISABLED &&
                 !video.paused &&
                 video.currentTime > 0
         ) ?? [];
@@ -431,9 +425,9 @@ const cleanupVideo = (video) => {
     if (!video) return;
     
     // Cancel animation frame
-    if (video.HBrafId) {
-        cancelAnimationFrame(video.HBrafId);
-        video.HBrafId = null;
+    if (video.RPrafId) {
+        cancelAnimationFrame(video.RPrafId);
+        video.RPrafId = null;
     }
     
     // Remove event listeners
@@ -445,12 +439,12 @@ const cleanupVideo = (video) => {
     video.removeAttribute("crossorigin");
     
     // Clear custom properties
-    delete video.HBprevTime;
-    delete video.HBpositiveCount;
-    delete video.HBnegativeCount;
-    delete video.HBerrored;
+    delete video.RPprevTime;
+    delete video.RPpositiveCount;
+    delete video.RPnegativeCount;
+    delete video.RPerrored;
     
-    console.log("HB==Video cleanup completed for:", video.src);
+    console.log("RP==Video cleanup completed for:", video.src);
 };
 
 export {
