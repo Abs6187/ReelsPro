@@ -26,7 +26,7 @@
     ],
     "web_accessible_resources": [
         {
-            "resources": ["src/assets/*"],
+            "resources": ["src/assets/*", "tfjs/*"],
             "matches": ["https://*/*", "http://*/*"]
         }
     ]

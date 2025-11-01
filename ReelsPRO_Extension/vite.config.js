@@ -10,4 +10,7 @@ export default {
             },
         },
     },
+    css: {
+        postcss: false, // Disable PostCSS processing
+    },
 };

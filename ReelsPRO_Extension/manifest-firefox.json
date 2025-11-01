@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "ReelsPRO",
+    "description": "Protect your privacy and uphold values by auto detecting & blurring images and videos of unwanted or impermissible content.",
+    "version": "0.2.6",
+    "permissions": ["storage", "contextMenus", "https://*/*", "http://*/*"],
+    "author": "contact2abhaygupta@gmail.com",
+    "browser_action": {
+        "default_title": "ReelsPRO",
+        "default_popup": "src/popup.html"
+    },
+    "background": {
+        "scripts": ["src/background.js"],
+        "persistent": false
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "reelspro@reelspro.extension",
+            "strict_min_version": "109.0"
+        }
+    },
+    "icons": {
+        "48": "src/assets/hb-icon-48.png",
+        "128": "src/assets/hb-icon-128.png"
+    },
+    "content_scripts": [
+        {
+            "js": ["dist/content.js"],
+            "matches": ["https://*/*", "http://*/*"],
+            "run_at": "document_start"
+        }
+    ],
+    "web_accessible_resources": ["src/assets/*", "tfjs/*"]
+}

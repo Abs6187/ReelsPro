@@ -1,18 +1,50 @@
 {
+    "name": "reelspro-extension",
+    "version": "0.2.6",
+    "description": "Privacy-focused browser extension for detecting and blurring sensitive content",
+    "type": "module",
     "scripts": {
         "build": "vite build",
         "dev": "vite build --watch",
-        "release": "bestzip extension.zip dist manifest.json src/assets src/background.js src/constants.js src/translations.js src/popup.html src/popup.js src/offscreen.html src/offscreen.js src/modules/* tfjs/*",
-        "prepare": "husky"
+        "type-check": "tsc --noEmit",
+        "type-check:watch": "tsc --noEmit --watch",
+        "build:chrome": "npm run build && node scripts/build-chrome.cjs",
+        "build:firefox": "npm run build && node scripts/build-firefox.cjs",
+        "build:edge": "npm run build && node scripts/build-chrome.cjs && move extension-chrome.zip extension-edge.zip",
+        "build:all": "npm run build:chrome && npm run build:firefox && npm run build:edge",
+        "release": "npm run build:chrome",
+        "release:all": "npm run build:all",
+        "prepare": "husky",
+        "lint": "prettier --check .",
+        "lint:fix": "prettier --write .",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage"
     },
     "devDependencies": {
+        "@types/chrome": "^0.0.277",
+        "@types/node": "^22.7.5",
         "bestzip": "^2.2.1",
-        "husky": "^9.0.11",
-        "lint-staged": "^15.2.7",
-        "prettier": "3.3.2",
-        "vite": "^4.4.9"
+        "husky": "^9.1.6",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "lint-staged": "^15.2.10",
+        "prettier": "^3.3.3",
+        "typescript": "^5.6.3",
+        "vite": "^5.4.8"
+    },
+    "dependencies": {
+        "@tensorflow/tfjs": "^4.22.0",
+        "nsfwjs": "^4.2.0"
     },
     "lint-staged": {
         "**/*": "prettier --write --ignore-unknown"
+    },
+    "keywords": ["browser-extension", "privacy", "content-filtering", "machine-learning", "tensorflow"],
+    "author": "ReelsPRO Team",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Abs6187/ReelsPRO.git"
     }
 }
