@@ -22,7 +22,8 @@ const setStyle = ({ detail: settings }) => {
         initStylesheets();
     }
     if (!_settings.shouldDetect()) {
-        rpStyleSheet.innerHTML = "";
+        // Using textContent for security - safer than innerHTML for style elements
+        rpStyleSheet.textContent = "";
         return;
     }
     const shouldBlurImages = _settings.shouldBlurImages();
@@ -41,7 +42,10 @@ const setStyle = ({ detail: settings }) => {
     if (shouldUnblurVideosOnHover)
         unblurSelectors.push("video" + ".rp-blur:hover");
     unblurSelectors = unblurSelectors.join(", ");
-    rpStyleSheet.innerHTML = `
+
+    // Using textContent for security - CSS is generated from settings (not user input)
+    // textContent is safer than innerHTML and works correctly for <style> elements
+    let cssContent = `
     ${blurSelectors} {
       filter: blur(${_settings.getBlurAmount()}px) ${
           _settings.isGray() ? "grayscale(100%)" : ""
@@ -49,10 +53,10 @@ const setStyle = ({ detail: settings }) => {
       transition: filter 0.1s ease !important;
       opacity: unset !important;
     }
-	
+
   `;
     if (unblurSelectors) {
-        rpStyleSheet.innerHTML += `
+        cssContent += `
 		${unblurSelectors} {
 			filter: blur(0px) ${_settings.isGray() ? "grayscale(0%)" : ""} !important;
 			transition: filter 0.5s ease !important;
@@ -61,8 +65,8 @@ const setStyle = ({ detail: settings }) => {
 	`;
     }
 
-    rpStyleSheet.innerHTML += `
-	.rp-blur-temp { 
+    cssContent += `
+	.rp-blur-temp {
 		animation: rp-blur-temp ${_settings.getBlurryStartTimeout()}ms ease-in-out forwards !important;
 	}
 
@@ -81,6 +85,8 @@ const setStyle = ({ detail: settings }) => {
 		100% { filter: blur(0px) ${_settings.isGray() ? "grayscale(0%)" : ""}; }
 	}
   `;
+
+    rpStyleSheet.textContent = cssContent;
 };
 const applyBlurryStart = (node) => {
     if (_settings?.isBlurryStartMode()) {

@@ -333,8 +333,10 @@ function changeLanguage(lang, settings) {
             if (text.includes('{website}') && currentWebsite) {
                 text = text.replace('{website}', currentWebsite);
             }
-            // Use innerHTML only for translations that may contain safe HTML
-            // Text is from controlled translation files, not user input
+            // SECURITY NOTE: Using innerHTML here for controlled translation strings
+            // Source: translations.js - hardcoded translation file, NOT user input
+            // Translations contain intentional HTML markup (links, spans) for formatting
+            // This is safe because the content is statically defined in our codebase
             element.innerHTML = text;
             // change direction of element
             if (RP_TRANSLATIONS_DIR[lang]) {

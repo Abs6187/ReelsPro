@@ -1,6 +1,6 @@
 {
     "name": "reelspro-extension",
-    "version": "0.2.7",
+    "version": "0.2.9",
     "description": "Privacy-focused browser extension for detecting and blurring sensitive content",
     "type": "module",
     "scripts": {

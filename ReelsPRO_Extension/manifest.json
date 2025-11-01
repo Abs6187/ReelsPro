@@ -2,7 +2,7 @@
     "manifest_version": 3,
     "name": "ReelsPRO",
     "description": "Protect your privacy and uphold values by auto detecting & blurring images and videos of unwanted or impermissible content.",
-    "version": "0.2.7",
+    "version": "0.2.9",
     "permissions": ["storage", "offscreen", "contextMenus"],
     "host_permissions": ["https://*/*", "http://*/*"],
     "author": "contact2abhaygupta@gmail.com",
