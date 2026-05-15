@@ -14,7 +14,7 @@ export const featuredVideos = [
         videoUrl: 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
       },
       {
-        thumbnail: 'https://images.unsplash.com/photo-1536240478700-b869070f9279?ixlib=rb-4.0.3&auto=format&fit=crop&w=870&q=80',
+        thumbnail: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=870&q=80',
         profilePic: 'https://randomuser.me/api/portraits/women/29.jpg',
         creator: 'Emily Roberts',
         followers: '3.1M followers',

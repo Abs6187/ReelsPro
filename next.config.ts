@@ -20,13 +20,11 @@ const nextConfig: NextConfig = {
         hostname: "ik.imagekit.io",
         port: "",
       },
-    ],
-    domains: [
-      "images.pexels.com",
-      "avatar.vercel.sh",
-      "randomuser.me",
-      "images.unsplash.com",
-      "via.placeholder.com",
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "avatar.vercel.sh" },
+      { protocol: "https", hostname: "randomuser.me" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "via.placeholder.com" },
     ],
   },
 };

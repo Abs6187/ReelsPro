@@ -13,7 +13,7 @@ const About = () => {
         <VideoBackground 
           videoUrl="https://videos.pexels.com/video-files/857136/857136-hd_1280_720_24fps.mp4"
           overlayClassName="bg-gradient-to-b from-reelspro-black/40 via-black/50 to-reelspro-black/50"
-          poster='/hero-poster.jpg'
+          poster='/heroPoster.png'
         />
         
         <div className="container mx-auto px-4 py-20 relative z-30">
