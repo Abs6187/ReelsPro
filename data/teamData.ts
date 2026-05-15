@@ -1,38 +1,30 @@
 export const teamData = [
-                {
-                  name: "Alex Rivera",
-                  role: "Founder & CEO",
-                  image: "https://randomuser.me/api/portraits/men/32.jpg",
-                  bio: "Former filmmaker with a passion for technology and community building."
-                },
-                {
-                  name: "Sarah Johnson",
-                  role: "Head of Product",
-                  image: "https://randomuser.me/api/portraits/women/44.jpg",
-                  bio: "Product visionary focused on creating intuitive and powerful creator tools."
-                },
-                {
-                  name: "Michael Chen",
-                  role: "Lead Developer",
-                  image: "https://randomuser.me/api/portraits/men/67.jpg",
-                  bio: "Full-stack developer specializing in video streaming technologies."
-                },
-                {
-                  name: "Nina Patel",
-                  role: "Community Manager",
-                  image: "https://randomuser.me/api/portraits/women/63.jpg",
-                  bio: "Building and nurturing the ReelsPro community of creators and viewers."
-                },
-                {
-                  name: "David Kwon",
-                  role: "Design Lead",
-                  image: "https://randomuser.me/api/portraits/men/73.jpg",
-                  bio: "UX/UI designer focused on creating beautiful and functional interfaces."
-                },
-                {
-                  name: "Olivia Lee",
-                  role: "Marketing Director",
-                  image: "https://randomuser.me/api/portraits/women/29.jpg",
-                  bio: "Digital marketing expert specializing in creative industry promotion."
-                }
-              ]
+  {
+    name: "Kripanshu Gupta",
+    role: "MERN Stack Developer",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    bio: "MERN Stack Developer.",
+    linkedin: "https://www.linkedin.com/in/kripanshu-gupta-a66349261/"
+  },
+  {
+    name: "Abhay Gupta",
+    role: "ML & Full-Stack Developer",
+    image: "https://randomuser.me/api/portraits/men/67.jpg",
+    bio: "ML & Full-Stack Developer.",
+    linkedin: "https://www.linkedin.com/in/abhay-gupta-197b17264/"
+  },
+  {
+    name: "Jay Kumar",
+    role: "ML & Front-end Developer",
+    image: "https://randomuser.me/api/portraits/men/73.jpg",
+    bio: "ML & Front-end Developer.",
+    linkedin: "https://www.linkedin.com/in/jay-kumar-jk/"
+  },
+  {
+    name: "Simran Koshta",
+    role: "Full Stack Developer",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
+    bio: "Full Stack Developer.",
+    linkedin: "https://www.linkedin.com/in/simran-koshta-40b3b2289/"
+  }
+];

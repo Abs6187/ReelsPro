@@ -1,6 +1,7 @@
 {
   "name": "reelspro",
   "version": "0.1.0",
+  "author": "TechMatrix Solvers",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

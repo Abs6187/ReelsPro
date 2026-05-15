@@ -80,7 +80,7 @@ export default function SettingsPage() {
         {
             value: "strict",
             title: "Strict",
-            desc: "Hide anything even mildly suggestive. HaramBlur-style strict filtering.",
+            desc: "Hide anything even mildly suggestive. ReelsPro-style strict filtering.",
         },
     ];
 
@@ -144,7 +144,7 @@ export default function SettingsPage() {
                     <div>
                         <div className="font-medium">Blur detected faces</div>
                         <div className="text-sm text-muted-foreground">
-                            HaramBlur-style face blurring applied on top of NSFW
+                            ReelsPro-style face blurring applied on top of NSFW
                             filtering.
                         </div>
                     </div>

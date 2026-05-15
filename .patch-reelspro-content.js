@@ -1,5 +1,5 @@
 const fs = require("fs");
-const path = "../HaramBlur/src/content.js";
+const path = "../ReelsPro/src/content.js";
 let s = fs.readFileSync(path, "utf8");
 
 const oldBlockCRLF =

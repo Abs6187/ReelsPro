@@ -1,5 +1,5 @@
 const fs = require("fs");
-const path = "../HaramBlur/src/modules/settings.js";
+const path = "../ReelsPro/src/modules/settings.js";
 let s = fs.readFileSync(path, "utf8");
 
 const oldA =

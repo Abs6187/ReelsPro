@@ -100,7 +100,7 @@ export default function AdminModerationPage() {
                 <div>
                     <h1 className="text-3xl font-semibold">Moderation queue</h1>
                     <p className="text-sm text-muted-foreground mt-1">
-                        HaramBlur-powered content review — {items.length} item
+                        ReelsPro-powered content review — {items.length} item
                         {items.length === 1 ? "" : "s"}
                     </p>
                 </div>

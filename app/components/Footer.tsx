@@ -56,7 +56,7 @@ const Footer = () => {
               </div>
             </div>
             <div className="text-gray-400 text-sm">
-              © {new Date().getFullYear()} ReelsPro. All rights reserved.
+              © {new Date().getFullYear()} ReelsPro. Built with ❤️ by TechMatrix Solvers
             </div>
           </div>
         </div>

@@ -9,9 +9,9 @@ export interface IUser {
     _id?: mongoose.Types.ObjectId,
     createdAt?: Date,
     updatedAt?: Date,
-    /** HaramBlur-style content filter preference for the feed. */
+    /** ReelsPro-style content filter preference for the feed. */
     contentFilter?: ContentFilterLevel,
-    /** When true, female faces are blurred in thumbnails/feed (HaramBlur parity). */
+    /** When true, female faces are blurred in thumbnails/feed (ReelsPro parity). */
     blurFaces?: boolean,
     /** Admin users can access the moderation dashboard. */
     isAdmin?: boolean,

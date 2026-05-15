@@ -117,3 +117,12 @@ We welcome contributions to enhance the project! To contribute:
 
 
 
+
+## 👥 Our Team
+
+Built with ❤️ by **TechMatrix Solvers**:
+- **Kripanshu Gupta** - MERN Stack Developer
+- **Abhay Gupta** - ML & Full-Stack Developer
+- **Jay Kumar** - ML & Front-end Developer
+- **Simran Koshta** - Full Stack Developer
+

@@ -93,7 +93,7 @@ export async function POST(req:NextRequest){
             return NextResponse.json({error: "Missing required fields"}, {status: 400})
         }
 
-        // --- HaramBlur-style moderation pass ---
+        // --- ReelsPro-style moderation pass ---
         let moderation: IVideo["moderation"] = { status: "pending" };
         if (MODERATION_ENABLED) {
             // ImageKit uploads return relative paths (e.g. /videos/xyz).
