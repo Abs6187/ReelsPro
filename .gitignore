@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Task tracker
 TASKS.md
+
+# Documentation files
+details.html
