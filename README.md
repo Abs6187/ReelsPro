@@ -116,6 +116,10 @@ This project was developed as part of the [HacksRIT Hackathon](https://unstop.co
 
   - [LinkedIn](https://www.linkedin.com/in/abhay-gupta-197b17264/)
 
+- **Dev Kumar Sharma** (2023-2027) - MERN Stack Developer
+
+  - [LinkedIn](https://www.linkedin.com/in/dev-kumar-sharma-38a300286/)
+
 - **Jay Kumar** (2022-2026) - ML & Front-end Developer
 
   - [LinkedIn](https://www.linkedin.com/in/jay-kumar-jk/)
