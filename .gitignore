@@ -45,3 +45,4 @@ TASKS.md
 
 # Documentation files
 details.html
+.env*.local

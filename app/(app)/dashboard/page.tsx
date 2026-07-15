@@ -25,6 +25,7 @@ const DashboardPage = () => {
     fetchVideos();
   }, []);
   return (
+    <>
 <div className="min-h-screen bg-gradient-to-br from-reelspro-black/90 via-reelspro-blue/40 to-reelspro-black/30 pt-20 px-4">
       <div className="w-full max-w-7xl mx-auto">
         {/* Dashboard Header */}
@@ -117,6 +118,7 @@ const DashboardPage = () => {
       </div>
     </div>
     <ModerationFAB />
+    </>
   )
 }
 
