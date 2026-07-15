@@ -22,7 +22,9 @@ ReelsPro is a dynamic web application that allows users to upload, view, and int
 
 ## 🔗 Live Demo
 
-Check out the live version of ReelsPro here: [Live Site](<your-live-site-url>)
+Check out the live version of ReelsPro here: [Live Site](https://reels-pro-11-qdkr.vercel.app)
+
+> **Branch deployed:** `update-owner-details` — hosted on [Vercel](https://vercel.com/abs6187s-projects/reels-pro-11-qdkr)
 
 ## 🛠 Installation & Setup
 
