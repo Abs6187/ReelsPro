@@ -1,11 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  eslint: {
-    // Lint errors won't block the production build.
-    // Run `npm run lint` separately to check for issues.
-    ignoreDuringBuilds: true,
-  },
   // Keep heavy/native server packages outside Turbopack's bundle graph.
   // These are resolved by native Node.js require at runtime instead.
   serverExternalPackages: [
