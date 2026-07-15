@@ -13,7 +13,7 @@ function cosineSim(a: number[], b: number[]): number {
 
 export async function GET(
     _req: NextRequest,
-    { params }: { params: Promise<{ id: string }> | { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const { id } = await Promise.resolve(params);

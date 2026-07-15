@@ -16,7 +16,7 @@ const ALLOWED: ModerationStatus[] = [
 
 export async function PATCH(
     req: NextRequest,
-    { params }: { params: Promise<{ id: string }> | { id: string } }
+    { params }: { params: Promise<{ id: string }> }
 ) {
     try {
         const session = await getServerSession(authOptions);
